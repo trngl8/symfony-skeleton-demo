@@ -18,6 +18,7 @@ services:
             # that's defined in this file (including controller arguments)
             $adminEmail: '%env(resolve:APP_DEFAULT_EMAIL)%'
             $appTheme: '%env(resolve:APP_THEME)%'
+            $appName: '%env(resolve:APP_NAME)%'
             $defaultModule: '%env(resolve:DEFAULT_MODULE)%'
             $telegramBotId: '%env(resolve:TELEGRAM_BOT_ID)%'
             $telegramBotToken: '%env(resolve:TELEGRAM_BOT_TOKEN)%'

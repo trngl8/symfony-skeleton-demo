@@ -18,7 +18,8 @@ export default class extends Controller {
     }
 
     greet() {
-        this.outputTarget.textContent = `Clicked, ${this.nameTarget.innerHTML}!`
+        //this.outputTarget.textContent = `Clicked, ${this.nameTarget.innerHTML}!`
+        console.log('button clicked from home controller');
     }
 
 }

@@ -40,6 +40,7 @@ messages:
   closing_agree: "Closing agree"
   change_agree: "Change agree"
   blank: "This page is blank"
+  forgot_password: "Забули пароль?"
 
 error:
   text_return_homepage: "Return to homepage"
@@ -87,6 +88,9 @@ button:
   add: Додати
   register: Реєстрація
   clone: Клонувати
+  cancel: Скасувати
+  enter: Вхід
+  reset: Скинути
 
 # Calendar
 calendar:

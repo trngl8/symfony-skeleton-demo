@@ -37,6 +37,7 @@ messages:
   closing_agree: "Closing agree"
   change_agree: "Change agree"
   blank: "This page is blank"
+  forgot_password: "Forgot your password?"
 
 error:
   text_return_homepage: "Return to homepage"
@@ -84,6 +85,9 @@ button:
   add: Add
   register: Register
   clone: Clone
+  cancel: Cancel
+  enter: Enter
+  reset: Reset
 
 link:
   forgot_password: Forgot your password?
