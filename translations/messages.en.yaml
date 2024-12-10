@@ -38,6 +38,7 @@ messages:
   change_agree: "Change agree"
   blank: "This page is blank"
   forgot_password: "Forgot your password?"
+  authenticated_as: "You are logged in as"
 
 error:
   text_return_homepage: "Return to homepage"

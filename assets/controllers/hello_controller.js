@@ -21,5 +21,4 @@ export default class extends Controller {
         //this.outputTarget.textContent = `Clicked, ${this.nameTarget.innerHTML}!`
         console.log('button clicked from home controller');
     }
-
 }

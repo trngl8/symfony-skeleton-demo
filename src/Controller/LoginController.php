@@ -17,12 +17,12 @@ class LoginController extends AbstractController
         $theme = 'default';
 
         if (!$user) {
-            $error = $authenticationUtils->getLastAuthenticationError();
+            $lastError = $authenticationUtils->getLastAuthenticationError();
 
             $lastUsername = $authenticationUtils->getLastUsername();
 
             return $this->render(sprintf('themes/%s/login.html.twig', $theme), [ // the same is login/index.html.twig
-                'error' => $error,
+                'error' => $lastError,
                 'last_username' => $lastUsername,
             ]);
         }
@@ -31,7 +31,7 @@ class LoginController extends AbstractController
             //return $this->redirectToRoute('admin');
         }
 
-        return $this->redirectToRoute('app_profile');
+        return $this->render(sprintf('themes/%s/login.html.twig', $theme));
     }
 
     #[Route('/logout', name: 'logout')]
