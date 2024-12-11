@@ -67,6 +67,7 @@ security:
          - { path: '^/(login|logout)', roles: PUBLIC_ACCESS }
          - { path: '^/password/forgot',roles: PUBLIC_ACCESS }
          - { path: '^/check-email',roles: PUBLIC_ACCESS }
+         - { path: '^/verify/email',roles: PUBLIC_ACCESS }
          - { path: '^/register',roles: PUBLIC_ACCESS }
          - { path: '^/reset',roles: PUBLIC_ACCESS }
          - { path: '^/(.+)', roles: IS_AUTHENTICATED_FULLY }
