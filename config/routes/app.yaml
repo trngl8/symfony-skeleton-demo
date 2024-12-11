@@ -1,6 +1,7 @@
 default:
   path: /
-  controller: App\Controller\DefaultController::default
+  #controller: App\Controller\DefaultController::default
+  controller: App\Controller\HomeController::home
 
 app_restricted:
   path: /restricted

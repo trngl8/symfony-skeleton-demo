@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Security;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
@@ -59,7 +59,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register_success');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('themes/default/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
@@ -95,6 +95,6 @@ class RegistrationController extends AbstractController
 
         $this->addFlash('success', 'Your email address has been verified.');
 
-        return $this->redirectToRoute('app_profile');
+        return $this->redirectToRoute('app_index');
     }
 }

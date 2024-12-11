@@ -55,7 +55,6 @@ security:
                     service: App\Security\OAuthUserProvider
 
         secured_area:
-            # ...
             form_login:
                 # ...
                 provider: app_user_provider
@@ -64,8 +63,16 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/profile, roles: ROLE_USER }
+         - { path: '^/admin', roles: ROLE_ADMIN }
+         - { path: '^/(login|logout)', roles: PUBLIC_ACCESS }
+         - { path: '^/password/forgot',roles: PUBLIC_ACCESS }
+         - { path: '^/check-email',roles: PUBLIC_ACCESS }
+         - { path: '^/verify/email',roles: PUBLIC_ACCESS }
+         - { path: '^/register',roles: PUBLIC_ACCESS }
+         - { path: '^/reset',roles: PUBLIC_ACCESS }
+         - { path: '^/(.+)', roles: IS_AUTHENTICATED_FULLY }
+         - { path: '^/', roles: PUBLIC_ACCESS }
+
 
 when@test:
     security:

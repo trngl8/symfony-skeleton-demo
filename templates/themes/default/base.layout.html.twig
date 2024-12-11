@@ -43,21 +43,18 @@
                     <p class="lead" data-hello-target="output">{{ app.request.cookies.get('APP_THEME') }}</p>
                 {% endif %}
 
+                {% if buttons is defined %}
                 <p class="lead mt-5">
-                    <a href="#" class="btn btn-lg btn-outline-primary fw-bold px-lg-5" title="button.blue.title" data-hello-target="name" data-action="click->hello#greet">{{ 'button.enter'|trans }}</a>
-                    <a href="#" class="btn btn-lg btn-outline-danger fw-bold px-lg-5" title="button.red.title">{{ 'button.cancel'|trans }}</a>
-{#                    {% if buttons is defined %}#}
-{#                    {% for button in buttons %}#}
-{#                        {% if button.type is same as 'first' %}#}
-{#                            <a href="{{ path(button.route) }}" class="btn btn-lg btn-outline-primary fw-bold px-lg-5" title="button.blue.title" data-hello-target="name" data-action="click->hello#greet">{{ button.caption }}</a>#}
-{#                        {% endif %}#}
-{#                        {% if button.type is same as 'second' %}#}
-{#                            <a href="{{ path(button.route) }}" class="btn btn-lg btn-outline-danger fw-bold px-lg-5" title="button.red.title">{{ button.caption }}</a>#}
-{#                        {% endif %}#}
-{#                    {% endfor %}#}
-{#                    {% endif %}#}
+                    {% for button in buttons %}
+                        {% if button.type is same as 'first' %}
+                            <a href="{{ path(button.route) }}" class="btn btn-lg btn-outline-primary fw-bold px-lg-5" title="button.blue.title" data-hello-target="name" data-action="click->hello#greet">{{ button.caption }}</a>
+                        {% endif %}
+                        {% if button.type is same as 'second' %}
+                            <a href="{{ path(button.route) }}" class="btn btn-lg btn-outline-danger fw-bold px-lg-5" title="button.red.title">{{ button.caption }}</a>
+                        {% endif %}
+                    {% endfor %}
                 </p>
-
+                {% endif %}
             </main>
             {% endblock %}
 
