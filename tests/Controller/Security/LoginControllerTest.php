@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller;
+namespace Controller\Security;
 
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
