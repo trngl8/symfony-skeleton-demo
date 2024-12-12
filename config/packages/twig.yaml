@@ -6,6 +6,7 @@ twig:
         app_version: '%env(APP_VERSION)%'
         app_theme: '%env(APP_THEME)%'
         app_default_module: '%env(DEFAULT_MODULE)%'
+        ga_tracking: '%env(GA_TRACKING)%'
 
 when@test:
     twig:
