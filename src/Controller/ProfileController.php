@@ -118,13 +118,14 @@ class ProfileController extends AbstractController
         }
 
         $userRecord = $this->em->getRepository(User::class)->findOneBy(['username' => $user->getUserIdentifier()]);
-        $userRecord->setVerified(false);
+        $userRecord->setIsVerified(false);
 
         $profile = $this->repository->findOneBy(['email' => $user->getUserIdentifier()]);
 
         $this->em->remove($profile);
         $this->em->flush();
 
+        // TODO: send some notification or flash message
         return $this->redirectToRoute('logout');
     }
 }
