@@ -22,26 +22,22 @@ class LoginController extends AbstractController
     {
         $user = $this->getUser();
 
-        $theme = 'default';
+        if ($user) {
+            $userRecord = $this->em->getRepository(User::class)->findOneBy(['username' => $user->getUserIdentifier()]);
 
-        if (!$user) {
-            $lastError = $authenticationUtils->getLastAuthenticationError();
-
-            $lastUsername = $authenticationUtils->getLastUsername();
-
-            return $this->render(sprintf('themes/%s/login.html.twig', $theme), [ // the same is login/index.html.twig
-                'error' => $lastError,
-                'last_username' => $lastUsername,
-            ]);
+            if (!$userRecord->isVerified()) {
+                return $this->redirectToRoute('app_user_verify');
+            }
         }
 
-        $userRecord = $this->em->getRepository(User::class)->findOneBy(['username' => $user->getUserIdentifier()]);
+        $lastError = $authenticationUtils->getLastAuthenticationError();
 
-        if (!$userRecord->isVerified()) {
-            return $this->redirectToRoute('app_user_verify');
-        }
+        $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render(sprintf('themes/%s/login.html.twig', $theme));
+        return $this->render('themes/default/login.html.twig', [
+            'error' => $lastError,
+            'last_username' => $lastUsername,
+        ]);
     }
 
     #[Route('/logout', name: 'logout')]

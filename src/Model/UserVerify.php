@@ -4,5 +4,8 @@ namespace App\Model;
 
 class UserVerify
 {
-    public string $phone;
+    public string $email;
+
+    public string $phone; //TODO: as option
+
 }

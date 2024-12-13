@@ -92,6 +92,7 @@ button:
   cancel: Скасувати
   enter: Вхід
   reset: Скинути
+  verify: Підтвердити
 
 # Calendar
 calendar:

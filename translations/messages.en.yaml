@@ -89,6 +89,7 @@ button:
   cancel: Cancel
   enter: Enter
   reset: Reset
+  verify: Verify
 
 link:
   forgot_password: Forgot your password?
