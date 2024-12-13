@@ -14,15 +14,15 @@
                 {% endfor %}
 
                 {{ form_start(verifyForm) }}
-                {{ form_row(verifyForm.phone, {
-                    'label': 'Phone',
+                {{ form_row(verifyForm.email, {
+                    'label': 'Email',
                 }) }}
                 <small class="mt-3">
-                    Enter your email phone number
+                    Your email should be verified. Please check your email for the verification link.
                 </small>
 
                 <div class="mt-3">
-                    <button class="btn btn-lg btn-primary w-50" type="submit">{{ 'button.reset'|trans }}</button>
+                    <button class="btn btn-lg btn-primary w-50" type="submit">{{ 'button.verify'|trans }}</button>
                     <a class="btn btn-lg btn-outline-secondary float-end" href="{{ path('default') }}">{{ 'button.cancel'|trans }}</a>
                 </div>
 
