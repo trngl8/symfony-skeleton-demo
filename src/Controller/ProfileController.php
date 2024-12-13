@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Profile;
+use App\Entity\User;
 use App\Form\ProfileType;
+use App\Repository\ProfileRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -13,14 +16,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProfileController extends AbstractController
 {
-    private $doctrine;
+    private EntityManagerInterface $em;
 
-    private $repository;
+    private ProfileRepository $repository;
 
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(ProfileRepository $repository, EntityManagerInterface $em)
     {
-        $this->doctrine = $doctrine;
-        $this->repository = $this->doctrine->getRepository(Profile::class);
+        $this->em = $em;
+        $this->repository = $repository;
     }
 
     #[Route('/profile', name: 'app_profile')]
@@ -86,11 +89,10 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->doctrine->getManager();
             $profile->setEmail($user->getUserIdentifier());
 
-            $entityManager->persist($profile);
-            $entityManager->flush();
+            $this->em->persist($profile);
+            $this->em->flush();
 
             $this->addFlash('success', 'flash.success.profile_updated');
             $response = $this->redirectToRoute('app_profile_edit');
@@ -109,7 +111,21 @@ class ProfileController extends AbstractController
     #[Route('/profile/remove', name: 'app_profile_remove')]
     public function remove(): Response
     {
-        // TODO implement
+        $user = $this->getUser();
+        if (!$user) {
+            $this->addFlash('warning', 'no_active_profile');
+            return $this->redirectToRoute('app_profile_edit');
+        }
+
+        $userRecord = $this->em->getRepository(User::class)->findOneBy(['username' => $user->getUserIdentifier()]);
+        $userRecord->setIsVerified(false);
+
+        $profile = $this->repository->findOneBy(['email' => $user->getUserIdentifier()]);
+
+        $this->em->remove($profile);
+        $this->em->flush();
+
+        // TODO: send some notification or flash message
         return $this->redirectToRoute('logout');
     }
 }
