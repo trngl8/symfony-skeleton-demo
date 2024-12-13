@@ -9,10 +9,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\UserVerifyFormType;
 use App\Model\UserVerify;
 
-class VerificationEmailController extends AbstractController
+class UserVerificationController extends AbstractController
 {
     #[Route('/user/verify', name: 'app_user_verify')]
-    public function verifyEmail(Request $request): Response
+    public function userVerify(Request $request): Response
     {
         $userVerify = new UserVerify();
         $form = $this->createForm(UserVerifyFormType::class, $userVerify);
