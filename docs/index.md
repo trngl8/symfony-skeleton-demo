@@ -40,3 +40,7 @@ When user clicks on the "Cancel" button he goes to the page "Register".
 
 Acceptance criteria:
 - user can log in
+- user can register
+- user can see the main page
+
+
