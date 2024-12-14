@@ -10,7 +10,7 @@ update:
 .PHONY: update
 
 deploy:
-	echo "TODO: create deploy process"
+	vendor/bin/dep deploy --branch=develop
 .PHONY: deploy
 
 tests:
