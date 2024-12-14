@@ -39,8 +39,7 @@ When user clicks on the "Cancel" button he goes to the page "Register".
 # how to back to the main page?
 
 Acceptance criteria:
+- user can see the buttons "Enter" and "Cancel"
 - user can log in
 - user can register
 - user can see the main page
-
-
