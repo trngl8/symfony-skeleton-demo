@@ -4,6 +4,7 @@ namespace App\Controller\Security;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\UserVerifyFormType;
 use App\Model\UserVerify;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
+use SymfonyCasts\Bundle\ResetPassword\Exception\TooManyPasswordRequestsException;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
 class UserVerificationController extends AbstractController
@@ -22,6 +24,7 @@ class UserVerificationController extends AbstractController
         private readonly MailerInterface $mailer,
         private readonly EntityManagerInterface $em,
         private readonly ResetPasswordHelperInterface $resetPasswordHelper,
+        private readonly LoggerInterface $logger,
         private readonly string $adminEmail,
         private readonly string $appName
     )
@@ -41,9 +44,10 @@ class UserVerificationController extends AbstractController
             if ($user) {
                 try {
                     $verifyToken = $this->resetPasswordHelper->generateResetToken($user);
-                } catch (ResetPasswordExceptionInterface $e) {
+                } catch (TooManyPasswordRequestsException $e) {
+                    $this->logger->error($e->getMessage());
                     $this->addFlash('warning', $e->getReason());
-                    return $this->redirectToRoute('app_user_verify');
+                    return $this->redirectToRoute('app_user_verify', ['available' => $e->getAvailableAt()->format('H:i:s')]);
                 }
 
                 $email = (new TemplatedEmail())
@@ -59,7 +63,6 @@ class UserVerificationController extends AbstractController
                 $this->mailer->send($email);
             }
 
-            // TODO: log user
             $this->addFlash('success', 'notice.check_email');
             return $this->redirectToRoute('app_check_email');
         }
