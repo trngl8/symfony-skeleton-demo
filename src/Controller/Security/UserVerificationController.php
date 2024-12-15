@@ -83,7 +83,7 @@ class UserVerificationController extends AbstractController
             return $this->redirectToRoute('app_user_verify');
         }
 
-        $user->setVerified(true);
+        $user->setIsVerified(true);
         $this->em->flush();
 
         $this->addFlash('success', 'notice.account_verified');
