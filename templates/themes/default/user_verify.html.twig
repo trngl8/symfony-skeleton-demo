@@ -2,43 +2,23 @@
 
 {% block title %}User verify{% endblock %}
 
-{% block main %}
+{% block content %}
 
-    <div class="container ">
-        <div class="row justify-content-md-center">
-            <div class="col-md-8">
+<h1 class="mb-4">User verify</h1>
 
-                <h1 class="mb-4">User verify</h1>
-                {% for flash_error in app.flashes('error') %}
-                    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-                {% endfor %}
+{{ form_start(verifyForm) }}
+{{ form_row(verifyForm.email, {
+    'label': 'Email',
+}) }}
+<small class="mt-3">
+    Your email should be verified. Please check your email for the verification link.
+</small>
 
-                {% for flash_error in app.flashes('warning') %}
-                    <div class="alert alert-warning" role="alert">{{ flash_error }}</div>
-                {% endfor %}
+<div class="mt-3">
+    <button class="btn btn-lg btn-primary w-50" type="submit">{{ 'button.verify'|trans }}</button>
+    <a class="btn btn-lg btn-outline-secondary float-end" href="{{ path('default') }}">{{ 'button.cancel'|trans }}</a>
+</div>
 
-                {% for flash_error in app.flashes('success') %}
-                    <div class="alert alert-success" role="alert">{{ flash_error }}</div>
-                {% endfor %}
-
-                {{ form_start(verifyForm) }}
-                {{ form_row(verifyForm.email, {
-                    'label': 'Email',
-                }) }}
-                <small class="mt-3">
-                    Your email should be verified. Please check your email for the verification link.
-                </small>
-
-                <div class="mt-3">
-                    <button class="btn btn-lg btn-primary w-50" type="submit">{{ 'button.verify'|trans }}</button>
-                    <a class="btn btn-lg btn-outline-secondary float-end" href="{{ path('default') }}">{{ 'button.cancel'|trans }}</a>
-                </div>
-
-                {{ form_end(verifyForm) }}
-
-            </div>
-
-        </div>
-    </div>
+{{ form_end(verifyForm) }}
 
 {% endblock %}
