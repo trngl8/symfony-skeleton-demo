@@ -63,7 +63,7 @@ class UserVerificationController extends AbstractController
                 $this->mailer->send($email);
             }
 
-            $this->addFlash('success', 'notice.check_email');
+            $this->addFlash('success', 'message.check_email');
             return $this->redirectToRoute('app_check_email');
         }
 
@@ -86,7 +86,7 @@ class UserVerificationController extends AbstractController
         $user->setIsVerified(true);
         $this->em->flush();
 
-        $this->addFlash('success', 'notice.account_verified');
+        $this->addFlash('success', 'message.account_verified');
         return $this->redirectToRoute('default');
     }
 }
