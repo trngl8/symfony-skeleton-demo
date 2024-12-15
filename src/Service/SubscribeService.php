@@ -4,10 +4,12 @@ namespace App\Service;
 
 use App\Entity\Invite;
 use App\Entity\Profile;
-use App\Model\Message;
 use App\Model\Subscribe;
 use App\Repository\ProfileRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 
 /**
  * Subscribe Service is a default module.
@@ -21,11 +23,14 @@ class SubscribeService
 
     private $messageService;
 
-    public function __construct(ManagerRegistry $doctrine, ProfileRepository $profiles, MessageService $messageService)
+    private $adminEmail;
+
+    public function __construct(ManagerRegistry $doctrine, ProfileRepository $profiles, MessageService $messageService, string $adminEmail)
     {
         $this->doctrine = $doctrine;
         $this->profiles = $profiles;
         $this->messageService = $messageService;
+        $this->adminEmail = $adminEmail;
     }
 
     public function validateSubscription(Subscribe $subscribe) : bool
@@ -60,21 +65,35 @@ class SubscribeService
 
         $this->doctrine->getManager()->persist($profile);
 
+        $token = bin2hex(random_bytes(16));
+
         //subscribe request
         $invite = (new Invite())
             ->setEmail($subscribe->email)
             ->setName($subscribe->name)
-            ->setDescription($subscribe->getType())
+            ->setDescription($token) //TODO: find a better way to store token
             ->setLifetime(1000)
             ->setProfile($profile)
         ;
 
-        $email = $this->messageService->compose(new Message($subscribe->email, $subscribe->locale));
-
-        $this->messageService->send($email);
-
         $this->doctrine->getManager()->persist($invite);
         $this->doctrine->getManager()->flush();
+
+        //TODO: choose email renderer
+        $email = (new TemplatedEmail())
+            ->priority(Email::PRIORITY_HIGH)
+            ->from($this->adminEmail) //TODO: default sender
+            ->to(new Address($subscribe->email))
+            ->subject('Invite or subscribe request') //TODO: translate
+            ->htmlTemplate('email/confirm.html.twig')
+            ->context([
+                'expiration_date' => new \DateTime('+7 days'),
+                'message' => 'You have been invited to a service', //TODO: Service name
+                'subscribe_token' => $token
+            ])
+        ;
+
+        $this->messageService->send($email);
 
         return $invite;
     }

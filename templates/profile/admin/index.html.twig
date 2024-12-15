@@ -13,6 +13,16 @@
     </ol>
 {% endblock %}
 
+{% block action_panel %}
+    <div class="mb-4">
+        {% if button is defined %}
+            <a href="{{ path('admin_profile_add') }}" class="btn btn-outline-primary" title="{{ 'button.add'|trans }} invite"><i class="bi bi-plus-circle"></i> {{ 'button.add'|trans }}</a>
+{#            <a href="{{ path('admin_profile_export') }}" class="btn btn-outline-secondary" title="{{ 'button.export'|trans }} invite"><i class="bi bi-download"></i> {{ 'button.export'|trans }}</a>#}
+
+        {% endif %}
+    </div>
+{% endblock %}
+
 {% block main %}
 
     {% if items is defined and items|length > 0 %}

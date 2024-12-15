@@ -18,12 +18,13 @@ class InviteAcceptType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('email', EmailType::class, [
+                'label' => 'form.label.email',
+                'disabled' => true
+            ])
             ->add('name', TextType::class, [
                 'label' => 'form.label.name',
                 'disabled' => true
-            ])
-            ->add('email', EmailType::class, [
-                'label' => 'form.label.email'
             ])
             ->add('locale', LocaleType::class, [
                 'label' => 'form.label.locale',
@@ -35,14 +36,7 @@ class InviteAcceptType extends AbstractType
             ])
             ->add('agree', CheckboxType::class, [
                 'label' => 'form.label.agree'
-            ])
-            ->add('know', CheckboxType::class, [
-                'label' => 'form.label.know'
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'form.label.submit'
-            ])
-        ;
+            ]);
     }
     public function configureOptions(OptionsResolver $resolver): void
     {

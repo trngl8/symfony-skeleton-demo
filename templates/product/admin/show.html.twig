@@ -1,0 +1,43 @@
+{% extends 'product/admin/index.html.twig' %}
+
+{% block title %}{{ item.title }}{% endblock %}
+
+{% block page_title %}
+    <h1 class="mt-4">{{ item.title }}</h1>
+{%endblock%}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-8">
+            {% if item.parent and item.parent.id > 0 %}
+            <div class="mb-4">
+                <a href="{{ path('admin_product_show', {id: item.parent.id}) }}" class="btn btn-outline-secondary">{{ item.parent.title|trans }}</a>
+            </div>
+            {% endif %}
+            <div class="card">
+                <div class="card-body">
+                    <p>{{ item.title }}</p>
+                    <p>{{ item.description }}</p>
+                    {% if item.fees %}
+                    <p>{{ item.fees }}%</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="mt-4">
+                <a href="{{ path('admin_product_edit', {id: item.id}) }}" class="btn btn-outline-secondary">{{ 'button.edit'|trans }}</a>
+                <a href="{{ path('admin_product_remove', {id: item.id}) }}" class="btn btn-outline-danger">{{ 'button.remove'|trans }}</a>
+            </div>
+
+            {% if subitems|length > 0 %}
+                <h3 class="mt-4">{{ 'items'|trans }}</h3>
+                <div class="list-group mt-4">
+                    {% for subitem in subitems %}
+                    <a href="{{ path('admin_product_show', {id: subitem.id}) }}" class="list-group-item list-group-item-action">
+                        {{ subitem.title }}
+                    </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -8,7 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class TopicService
 {
-    private string $baseDql = "SELECT t FROM App\Entity\Topic t";
+    private string $baseDql = "SELECT t, p FROM App\Entity\Topic t LEFT JOIN t.profile p";
 
     private $doctrine;
 

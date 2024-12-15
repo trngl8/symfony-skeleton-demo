@@ -46,12 +46,12 @@ HELP
         $users = array_map(function ($item) {
             /** @var User $item */
             $roles = implode(', ', $item->getRoles());
-            return [$item->getId(), $item->getUsername(), $roles];
+            return [$item->getId(), $item->getUsername(), $item->isVerified(), $roles];
         }, $this->userManager->findBy([]));
 
         $table = new Table($output);
         $table
-            ->setHeaders(['ID', 'username', 'roles'])
+            ->setHeaders(['ID', 'username', 'verified', 'roles'])
             ->setRows($users)
         ;
         $table->render();

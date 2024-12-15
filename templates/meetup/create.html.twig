@@ -1,0 +1,27 @@
+{% extends 'meetup/index.html.twig' %}
+
+{% block breadcrumbs %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ path('app_index') }}">{{ 'menu.home'|trans }}</a></li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ path('app_meetups_index') }}">Meetups</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Create</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block main %}
+    <h1>{% block main_header %}Create a new meetup{% endblock %}</h1>
+    {% if form is not defined %}
+        <p>There is no form to display</p>
+    {% else %}
+        {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.plannedDayAt) }}
+        {{ form_row(form.plannedTimeAt) }}
+        {{ form_row(form.duration) }}
+        {{ form_rest(form) }}
+        <button type="submit" class="btn btn-lg btn-outline-primary">{% block form_button_caption %}Create{% endblock %}</button>
+        {{ form_end(form) }}
+    {% endif %}
+{% endblock %}

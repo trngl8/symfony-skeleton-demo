@@ -11,6 +11,11 @@ framework:
         cookie_samesite: lax
         storage_factory_id: session.storage.factory.native
 
+    http_client:
+        default_options:
+            max_redirects: 7
+            http_version: '2.0'
+
     #esi: true
     #fragments: true
     php_errors:

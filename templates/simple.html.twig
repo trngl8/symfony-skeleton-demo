@@ -1,0 +1,77 @@
+{% extends "base_html5.html.twig" %}
+
+{% block title %}{{ 'login'|trans }}{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+    <style>
+    html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        display: flex;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+    }
+
+    .form-simple {
+        max-width: 460px;
+        padding: 15px;
+    }
+    </style>
+{% endblock %}
+
+
+{% block main %}
+
+<main class="form-simple w-100 m-auto">
+
+    <div class="container">
+        <div class="row">
+            <div class="text-center mt-4">
+                <h1 class="h3 mb-5 fw-normal"><i class="bi bi-people"></i> {{ 'hero.caption'|trans }}</h1>
+            </div>
+
+            {% block app_flashes %}{% endblock %}
+
+            <div class="card">
+                <div class="card-body">
+                    {% if app.user %}
+
+                    <a class="w-100 btn btn-lg btn-primary btn-common" href="{{ path('app_profile') }}">{{ app.user.userIdentifier }}</a>
+                    <p class="mb-3 mt-3 text-center">or</p>
+                    <a class="w-100 btn btn-lg btn-outline-primary" href="{{ path('logout') }}">{{ 'logout'|trans }}</a>
+
+                    {% else %}
+
+                    <form method="post" action="{{ path('login') }}">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">{{ 'form.label.email'|trans }}</label>
+                            <input type="email" required class="form-control" id="username" name="_username" value="{% if last_username is defined %}{{ last_username }}{% endif %}" aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">{{ 'form.label.password'|trans }}</label>
+                            <input type="password" required id="password" name="_password" class="form-control">
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="remember" name="_remember_me">
+                            <label class="form-check-label" for="remember">{{ 'form.label.remember_me'|trans }}</label>
+                        </div>
+
+                        <button class="w-100 btn btn-lg btn-outline-primary btn-common" type="submit">{{ 'button.login'|trans }}</button>
+
+                    </form>
+
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+{% endblock %}

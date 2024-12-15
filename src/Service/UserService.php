@@ -38,7 +38,7 @@ class UserService
         $this->em->flush();
     }
 
-    public function remove(User $user)
+    public function remove(User $user) : void
     {
         $this->em->remove($user);
         $this->em->flush();

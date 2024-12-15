@@ -1,0 +1,63 @@
+{% extends 'offer/admin/index.html.twig' %}
+
+{% block title %}{{ item.title }} {{ item.code }}{% endblock %}
+
+{% block page_title %}
+    <h1 class="mt-4">{{ item.title }} {{ item.code }}</h1>
+{%endblock%}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ path('admin') }}">{{ 'menu.dashboard'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_card_index') }}">{{ 'menu.cards'|trans }}</a></li>
+        <li class="breadcrumb-item active">{{ item.title }} {{ item.code }}</li>
+    </ol>
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <p><b>Code:</b> {{ item.code }}</p>
+                    {% if item.product %}
+                        <p><b>Category:</b> <a href="{{ path('admin_product_show', {id: item.product.id}) }}">{{ item.product }}</a></p>
+                    {% endif %}
+
+                    <p><b>Title:</b> {{ item.title }}</p>
+                    <p><b>Brand:</b> {{ item.brand }}</p>
+                    <p><b>Price:</b> {{ item.price}}</p>
+                    <p><b>Price sale:</b> {{ item.priceSale}}</p>
+                    <p><b>Quantity:</b> {{ item.quantity }}</p>
+                    <p><b>Weight:</b> {{ item.weight }}</p>
+                    <p><b>Warranty:</b> {{ item.period }}</p>
+                    <p><b>Description:</b> {{ item.description }}</p>
+                    <p><b>Available:</b> {{ item.available }}</p>
+                </div>
+            </div>
+            {% if item.filename  %}
+            <div class="card mt-2">
+                <div class="card-body">
+                    {% block filename %}
+                        <img src="{{ asset('upload/cards/' ~ item.id ~ '/' ~ item.filename) }}" alt="" width="200" >
+                    {% endblock %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="mt-4">
+                <a href="{{ path('admin_card_edit', {id: item.id}) }}" class="btn btn-outline-secondary">{{ 'button.edit'|trans }}</a>
+                <a href="{{ path('admin_card_remove', {id: item.id}) }}" class="btn btn-outline-danger">{{ 'button.remove'|trans }}</a>
+
+                <div class="mt-4">
+                    <form action="{{ path('admin_card_clone', {id: item.id}) }}" method="post">
+                        <input type="hidden" name="token" value="{{ csrf_token('clone') }}" />
+                        <button type="submit" class="btn btn-outline-primary">
+                            {{ 'button.clone'|trans }}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

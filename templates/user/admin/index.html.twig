@@ -1,0 +1,44 @@
+{% extends 'admin.html.twig' %}
+
+{% block page_title %}
+    <h1 class="mt-4">{{ 'title.users'|trans }}</h1>
+{%endblock%}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ path('admin') }}">{{ 'menu.dashboard'|trans }}</a></li>
+        <li class="breadcrumb-item active">{{ 'menu.users'|trans }}</li>
+    </ol>
+{% endblock %}
+
+{% block main %}
+    {% if items is defined and items|length > 0 %}
+        <table class="table">
+            <thead class="table-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">{{ 'username'|trans }}</th>
+                <th scope="col">{{ 'roles'|trans }}</th>
+                <th scope="col">{{ 'verified'|trans }}</th>
+{#                <th scope="col" class="col-2">{{ 'actions'| trans }}</th>#}
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.userIdentifier }}</td>
+                    <td>{{ item.roles|join(', ') }}</td>
+                    <td>{{ item.verified }}</td>
+{#                    <td><a href="#" class="btn btn-outline-secondary">{{ 'button.show'|trans }}</a></td>#}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    {% if button is defined %}
+        <a href="" class="btn btn-outline-primary">{{ 'button.add'|trans }}</a>
+    {% endif %}
+
+{% endblock %}

@@ -17,29 +17,23 @@
     </ol>
 {% endblock %}
 
-{% block filters %}
-{% endblock %}
-
-{% block paginator %}
-{% endblock %}
-
 {% block main %}
     <div class="row">
         <div class="col-md-8">
             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-            <div class="card">
-                <div class="card-body">
-                    {{ form_row(form.product) }}
-                    {{ form_row(form.project) }}
-                    {{ form_row(form.type) }}
-                    {{ form_row(form.title) }}
-                    {{ form_row(form.description) }}
-                    {{ form_row(form.branch) }}
-                    {{ form_row(form.profile) }}
-                </div>
-            </div>
+
+            {{ form_row(form.project) }}
+            {{ form_row(form.type) }}
+            {{ form_row(form.title) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.branch) }}
+            {{ form_row(form.priority) }}
+            {{ form_row(form.profile) }}
+            {{ form_row(form.publishedAt) }}
+
+            {{ form_rest(form) }}
             <div class="mt-4">
-                {{ form_widget(form.save, {label : 'button.submit'|trans, attr: {class : 'btn btn-lg btn-primary' }}) }}
+                <button type="submit" class="btn btn-lg btn-primary">{{ 'button.submit'|trans }}</button>
             </div>
             {{ form_end(form) }}
 

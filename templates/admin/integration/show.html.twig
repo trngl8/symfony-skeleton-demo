@@ -1,0 +1,51 @@
+{% extends 'admin.html.twig' %}
+
+{% block page_title %}
+    <h1 class="mt-4">Integrations</h1>
+{%endblock%}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ path('admin') }}">{{ 'menu.dashboard'|trans }}</a></li>
+        <li class="breadcrumb-item active">Integrations</li>
+    </ol>
+{%endblock%}
+
+{% block main %}
+<div class="row">
+    <div class="col-md-6">
+        <a href="https://t.me/{{ result.me.username }}" target="_blank" class="btn btn-lg btn-outline-primary">
+            <i class="bi bi-telegram"></i> {{ result.me.username }}
+        </a>
+        <ul class="mb-4 mt-4">
+            {% for key, value in result.me %}
+                <li>{{ key }} - {{ value }}</li>
+            {% endfor %}
+        </ul>
+
+        <div class="list-group w-auto">
+            {% for item in updates %}
+            <a href="{{ path('admin_integration_telegram_chat', {id:item.message.chat.id}) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+{#                <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">#}
+                <div>
+                    @{{ item.message.from.username }}
+                    <span class="badge text-bg-info">{{ item.message.chat.id }}</span>
+                </div>
+
+
+                <div class="d-flex gap-2 w-100 justify-content-between">
+                    <div>
+                        {# TODO check item.message.chat.last_name #}
+                        <h6 class="mb-0">{{ item.message.chat.first_name }} </h6>
+                        <p class="mb-0 opacity-75">{{ item.message.text }}</p>
+                        <span class="badge text-bg-primary">{{ item.message.chat.type }}</span>
+                    </div>
+                    <small class="opacity-50 text-nowrap">{{ item.message.date }}</small>
+                </div>
+            </a>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

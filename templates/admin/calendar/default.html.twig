@@ -1,0 +1,49 @@
+{% extends 'admin.html.twig' %}
+
+{% block page_title %}
+    <h1 class="mt-4">{{ 'calendar.title'|trans }}</h1>
+{%endblock%}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ path('admin') }}">{{ 'menu.dashboard'|trans }}</a></li>
+        <li class="breadcrumb-item active">{{ 'calendar.title'|trans }}</li>
+    </ol>
+{% endblock %}
+
+{% block main %}
+
+    {% if items is defined and items|length > 0 %}
+        <table class="table">
+            <thead class="table-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">UUID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Type</th>
+                <th scope="col">{{ 'start_at'| trans }}</th>
+                <th scope="col">{{ 'actions'| trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+                <tr>
+                    <td><a href="{{ path('admin_calendar_show', {'id': item.id }) }}">{{ item.id }}</a></td>
+                    <td><a href="{{ path('admin_calendar_show', {'id': item.id }) }}">{{ item.uuid|u.truncate(11, '...') }}</a></td>
+                    <td><a href="{{ path('admin_calendar_show', {'id': item.id }) }}">{{ item.title }}</a></td>
+                    <td>{{ item.type }}</td>
+                    <td>{{ item.startAt|date }}</td>
+                    <td>
+                        <a href="{{ path('admin_calendar_show', {id: item.id}) }}" class="btn btn-sm btn-outline-secondary">{{ 'button.show'|trans }}</a>
+                        <a href="{{ path('admin_calendar_remove', {id: item.id}) }}" class="btn btn-sm btn-outline-danger">{{ 'button.remove'|trans }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% endif %}
+
+    <a href="{{ path('admin_calendar_add') }}" class="btn btn-outline-primary">{{ 'button.add'|trans }}</a>
+
+{% endblock %}

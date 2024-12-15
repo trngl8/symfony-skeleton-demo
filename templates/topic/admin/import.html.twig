@@ -1,0 +1,18 @@
+{% extends 'topic/admin/index.html.twig' %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-8">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            <div class="card">
+                <div class="card-body">
+                    {{ form_row(form.file) }}
+                </div>
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-lg btn-primary">{{ 'button.submit'|trans }}</button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

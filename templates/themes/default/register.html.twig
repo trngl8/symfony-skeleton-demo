@@ -1,0 +1,19 @@
+{% extends 'themes/default/base.layout.html.twig' %}
+
+{% block title %}{{ 'title.register'|trans }}{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">{{ 'title.register'|trans }}</h1>
+
+{{ form_start(registrationForm) }}
+{{ form_row(registrationForm.name) }}
+{{ form_row(registrationForm.username, {'label': "Email"}) }}
+{{ form_row(registrationForm.plainPassword) }}
+{{ form_row(registrationForm.agreeTerms) }}
+
+<button type="submit" class="btn btn-lg btn-primary w-50">{{ 'button.register'|trans }}</button>
+<a class="btn btn-lg btn-outline-secondary float-end" href="{{ path('default') }}">{{ 'button.cancel'|trans }}</a>
+{{ form_end(registrationForm) }}
+
+{% endblock %}

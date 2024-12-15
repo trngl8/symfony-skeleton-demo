@@ -1,0 +1,15 @@
+{% extends 'card/admin/add.html.twig' %}
+
+{% block title %}{{ 'title.edit_card'|trans }}{% endblock %}
+
+{% block page_title %}
+    <h1 class="mt-4">{{ 'title.edit_card'|trans }}</h1>
+{%endblock%}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ path('admin') }}">{{ 'menu.dashboard'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_card_index') }}">{{ 'menu.cards'|trans }}</a></li>
+        <li class="breadcrumb-item active">{{ 'title.edit_card'|trans }}</li>
+    </ol>
+{% endblock %}

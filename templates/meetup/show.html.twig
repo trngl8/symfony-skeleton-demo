@@ -1,0 +1,107 @@
+{% extends 'meetup/index.html.twig' %}
+
+{% block modal %}
+    <div class="modal fade" id="removeFormModal" tabindex="-1" aria-labelledby="removeFormModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Remove?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Remove record?
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ url('app_meetups_remove', { id: meetup.id }) }}" method="post" data-confirmation="true" id="remove-form">
+                        <input type="hidden" name="token" value="{{ csrf_token('remove') }}" />
+                        <button type="submit" class="btn btn-danger">
+                            Remove
+                        </button>
+                    </form>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ path('app_index') }}">{{ 'menu.home'|trans }}</a></li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ path('app_meetups_index') }}">Meetups</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ meetup.title }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+
+{% block main %}
+
+<h1>{{ meetup.title }}</h1>
+    <div class="row mb-4">
+        <div class="col-md-8">
+            {% block card %}
+            <div class="card border-primary-subtle mb-5">
+                <div class="card-body">
+                    <h5 class="card-title">{{ meetup.title }}</h5>
+                    <p class="card-text">{{ meetup.plannedAt|date }}</p>
+                    {% if app.user %}
+                        {% if subscribers|length > 0 %}
+                            <p class="card-text">Subscribers:</p>
+                            {% for subscriber in subscribers %}
+                                <a href="#" data-bs-toggle="tooltip" data-bs-title="{{ subscriber.email }}" title="{{ subscriber.email }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="#666" width="32" height="32" class="avatar avatar-16 avatar-md-24 avatar-lg-32 avatar-xl-64 avatar-xxl-128 text-primary" viewBox="0 0 16 16">
+                                        <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"></path>
+                                        <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                                        <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"></path>
+                                    </svg>
+                                </a>
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            {% endblock %}
+
+            {% block card_actions %}
+                {% if app.user %}
+                    <div class="d-flex">
+                        <div class="me-2">
+                            <form action="{{ url('app_meetups_join', { id: meetup.id }) }}" method="post" data-confirmation="true" id="joinForm">
+                                <input type="hidden" name="token" value="{{ csrf_token('join') }}" />
+                                <button type="submit" class="btn btn-outline-success">
+                                    Join
+                                </button>
+                            </form>
+                        </div>
+                        <div class="me-2">
+                            <a href="{{ path('app_meetups_edit', { id: meetup.id }) }}" class="btn btn-outline-primary">Edit</a>
+                        </div>
+                        <div class="me-2">
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#removeFormModal">
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{{ path('app_meetups_subscribe', { id: meetup.id }) }}" class="btn btn-outline-success">Join</a>
+                {% endif %}
+            {% endblock %}
+        </div>
+        <div class="col-md-4">
+            {% block sidebar %}
+                <div class="card text-bg-light mb-4">
+                    <div class="card-body">
+                        <p class="card-title">Join meeting</p>
+                        <p class="card-text">If you are going to connect, click Join</p>
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+        <div class="col-md-8">
+
+        </div>
+    </div>
+
+{% endblock %}

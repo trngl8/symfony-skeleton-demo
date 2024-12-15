@@ -1,66 +1,63 @@
-{% extends 'layout.html.twig' %}
-
-{% block breadcrumbs %}
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ path('app_index') }}">{{ 'brcmbs.home'|trans }}</a></li>
-            <li class="breadcrumb-item" aria-current="page">{{ 'title.login'|trans }}</li>
-        </ol>
-    </nav>
-{% endblock %}
-
-{% block add_flashes %}
-    {% if error %}
-        <div class="alert alert-warning" role="alert">
-            {{ error.messageKey|trans(error.messageData, 'security') }}
-        </div>
-    {% endif %}
-    {% if app.session.get('cart') %}
-        <div class="alert alert-success" role="alert">
-            <i class="bi bi-cart"></i>
-              <a href="{{ path('app_cart') }}">{{ 'text.yoy_have_items_in_the_cart'|trans }}</a>
-        </div>
-    {% endif %}
-{% endblock %}
+{% extends 'default.html.twig' %}
 
 {% block main %}
-    <h1 class="mb-4">{{ 'title.login'|trans }}</h1>
+    <main class="form-signin w-100 m-auto">
+        <div class="container">
+            <div class="row">
 
-    <div class="row">
-        <div class="col-md-6">
+                <div class="text-center d-flex justify-content-center mb-4">
+                    <div class="icon"></div>
+                </div>
 
-            <form action="{{ path('login') }}" method="post">
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-{#                <input type="hidden" name="_target_path" value="{{ target_path }}"/>#}
-
-                <div id="login">
-                    <div class="mb-3">
-                        <label for="username" class="form-label required">{{ 'form.label.email'|trans }}</label>
-                        <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control" />
+                <div class="text-center">
+                    <h1 class="h3 mb-5 fw-normal"><i class="bi bi-people-fill"></i> Member's area</h1>
+                </div>
+                {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
                     </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label required">{{ 'form.label.password'|trans }}</label>
-                        <input type="password" id="password" name="_password" class="form-control" />
-                    </div>
-                    <div class="mb-3">
-                        <div class="form-check">
-                            <input type="checkbox" id="subscribe_agree" name="_remember_me" class="form-check-input" value="1" />
-                            <label class="form-check-label required" for="subscribe_agree">{{ 'form.label.remember_me'|trans }}</label>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <button type="submit" id="login" name="login" class="btn-primary btn">{{ 'button.login'|trans }}</button>
+                {% endif %}
+                <div class="card">
+                    <div class="card-body text-dark ">
+
+{#                        {% if app.user %}#}
+{#                            <a class="w-100 btn btn-lg btn-outline-primary btn-common" href="{{ path('app_profile') }}">{{ app.user.userIdentifier }}</a>#}
+{#                            <p class="mb-3 mt-3 text-center">or</p>#}
+{#                            <a class="w-100 btn btn-lg btn-outline-primary" href="{{ path('logout') }}">{{ 'logout'|trans }}</a>#}
+{#                        {% else %}#}
+
+                            <form method="post" action="{{ path('login') }}">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">{{ 'form.label.email'|trans }}</label>
+                                    <input type="email" class="form-control" id="username" name="_username" value="{% if last_username is defined %}{{ last_username }}{% endif %}" aria-describedby="emailHelp">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">{{ 'form.label.password'|trans }}</label>
+                                    <input type="password" id="password" name="_password" class="form-control">
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="remember" name="_remember_me">
+                                    <label class="form-check-label" for="remember">{{ 'form.label.remember_me'|trans }}</label>
+                                </div>
+                                <button class="w-100 btn btn-lg btn-outline-primary btn-common" type="submit">{{ 'button.login'|trans }}</button>
+
+                                {#                        <div class="col-md-6 mt-5">#}
+                                {#                            <p>Or you can login with social network:</p>#}
+                                {#                            <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}"  class="btn-outline-secondary btn">#}
+                                {#                                <span>Login with Google</span>#}
+                                {#                            </a>#}
+                                {#                        </div>#}
+                            </form>
+
+{#                        {% endif %}#}
+
                     </div>
                 </div>
-            </form>
 
-{#            <div class="col-md-6 mt-5">#}
-{#                <p>Or you can login with social network:</p>#}
-{#                <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}"  class="btn-outline-secondary btn">#}
-{#                    <span>Login with Google</span>#}
-{#                </a>#}
-{#            </div>#}
+                {#                <p class="mt-5 mb-3 text-muted text-center">&copy; 2022-2023 {{ app_name|capitalize }}</p>#}
+
+            </div>
         </div>
-    </div>
-{% endblock %}
+    </main>
+{% endblock main %}

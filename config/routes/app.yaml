@@ -1,6 +1,7 @@
-app_home:
+default:
   path: /
-  controller: App\Controller\DefaultController::index
+  #controller: App\Controller\DefaultController::default
+  controller: App\Controller\HomeController::home
 
 app_restricted:
   path: /restricted
@@ -9,18 +10,6 @@ app_restricted:
 app_info:
   path: /info
   controller: App\Controller\HomeController::info
-
-app_index:
-  path: /index
-  controller: App\Controller\DefaultController::index
-
-default_module:
-  path: /app
-  controller: App\Controller\OfferController::index
-
-default_action:
-  path: /register
-  controller: App\Controller\SubscribeController::add
 
 app_contact:
   path: /contact
@@ -36,11 +25,11 @@ app_cart:
 
 admin:
   path: /admin
-  controller: App\Controller\Admin\AdminController::admin
+  controller: App\Controller\Admin\AdminDashboardController::admin
 
 admin_inbox:
   path: /admin/inbox
-  controller: App\Controller\Admin\AdminController::inbox
+  controller: App\Controller\Admin\AdminDashboardController::inbox
 
 app_features:
   path: /features

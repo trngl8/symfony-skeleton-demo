@@ -15,7 +15,18 @@ trait TimestampTrait
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $closedAt;
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function setCreatedAt(\DateTimeInterface $date): self
+    {
+        if($this->createdAt && $this->createdAt < $date) {
+            //throw new \RuntimeException("Impossible to set created date in the future");
+        }
+
+        $this->createdAt = $date;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }

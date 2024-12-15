@@ -4,14 +4,24 @@
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+{#        <link rel="icon" href="/favicon.ico">#}
         <link rel="shortcut icon" type="image/svg+xml" href="{{ asset('favicons/favicon.svg') }}">
         <link rel="alternate icon" type="image/png" sizes="16x16" href="{{ asset('favicons/favicon16x16.png') }}">
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicons/apple-touch-icon.png') }}" />
+
+{#        <meta property="og:title" content="A Basic HTML5 Template">#}
+{#        <meta property="og:type" content="website">#}
+{#        <meta property="og:url" content="https://localhost/url">#}
+{#        <meta property="og:description" content="A simple HTML5 Template for new projects.">#}
+{#        <meta property="og:image" content="image.png">#}
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock stylesheets %}
 
         {#    <link rel="canonical" href="{{ '' }}">#}
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
 
@@ -22,10 +32,12 @@
         {% endblock javascripts %}
     </head>
     <body>
+        {% block modal %}{% endblock %}
         {% block simple_navbar %}{% endblock %}
         {% block body %}{% endblock %}
         {% block footer %}{% endblock %}
-        <!-- Page rendered on {{ 'now'|format_datetime('long', 'long', '', 'UTC') }} -->
-
+        {% if app.environment is same as 'dev' %}
+            <!-- Page rendered on {{ 'now'|format_datetime('long', 'long', '', 'UTC') }} -->
+        {% endif %}
     </body>
  </html>

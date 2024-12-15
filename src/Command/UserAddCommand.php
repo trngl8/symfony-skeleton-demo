@@ -2,7 +2,9 @@
 
 namespace App\Command;
 
+use App\Entity\Profile;
 use App\Service\UserService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -10,7 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;;
 
 #[AsCommand(
     name: 'app:user:add',
@@ -20,10 +21,12 @@ class UserAddCommand extends Command
 {
     private $userManager;
 
-    public function __construct(UserService $userManager, UserPasswordHasherInterface $passwordHasher)
+    private $em;
+
+    public function __construct(EntityManagerInterface $em, UserService $userManager)
     {
         $this->userManager = $userManager;
-
+        $this->em = $em;
 
         parent::__construct();
     }
@@ -52,6 +55,18 @@ HELP
         $user = $this->userManager->create($username, $plaintextPassword);
 
         $this->userManager->save($user);
+
+        //TODO create profile in the factory
+        $profile = (new Profile())
+            ->setName($username)
+            ->setEmail($username)
+            ->setTimezone(date_default_timezone_get())
+            ->setLocale('uk') //TODO get default locale
+            ->setActive(true)
+        ;
+
+        $this->em->getRepository(Profile::class)->add($profile);
+        $this->em->flush();
 
         $io->success('User successfully generated!');
 

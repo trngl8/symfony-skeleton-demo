@@ -1,0 +1,47 @@
+{% extends 'themes/default/base.layout.html.twig' %}
+
+{% block title %}{{ 'title.login'|trans }}{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">{{ 'title.login'|trans }}</h1>
+
+{% if error is defined and error is not empty %}
+    <div class="alert alert-danger" role="alert">
+        {{ error.messageKey|trans(error.messageData, 'security') }}
+    </div>
+{% endif %}
+
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    <div class="alert alert-warning" role="alert">
+        {{ 'messages.authenticated_as'|trans }}: <b>{{ app.user.email }}</b> <a href="{{ path('logout') }}">{{ 'app.logout'|trans }}</a>
+    </div>
+    <a href="{{ path('app_profile') }}" class="btn btn-lg btn-primary w-50">{{ 'button.login'|trans }}</a>
+{% elseif is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    <div class="alert alert-secondary" role="alert">
+        {{ 'messages.authenticated_as'|trans }}: <b>{{ app.user.email }}</b> <a href="{{ path('logout') }}">{{ 'app.logout'|trans }}</a>
+    </div>
+    <a href="{{ path('app_profile') }}" class="btn btn-lg btn-primary w-50">{{ 'button.login'|trans }}</a>
+{% else %}
+    <form method="post" action="{{ path('login') }}">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <div class="mb-3">
+            <label for="username" class="form-label">{{ 'form.label.email'|trans }}</label>
+            <input type="email" class="form-control" id="username" name="_username" value="{% if last_username is defined %}{{ last_username }}{% endif %}" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">{{ 'form.label.password'|trans }}</label>
+            <input type="password" id="password" name="_password" class="form-control">
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="remember" name="_remember_me">
+            <label class="form-check-label" for="remember">{{ 'form.label.remember_me'|trans }}</label>
+        </div>
+        <button type="submit" class="btn btn-lg btn-primary w-50">{{ 'button.login'|trans }}</button>
+        <a class="btn btn-lg btn-outline-secondary float-end" href="{{ path('default') }}">{{ 'button.cancel'|trans }}</a>
+    </form>
+
+    <p class="mt-4"><a href="{{ path('app_password_forgot') }}" class="link-secondary">{{ 'messages.forgot_password'|trans }}</a></p>
+{% endif %}
+
+{% endblock %}

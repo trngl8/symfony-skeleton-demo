@@ -1,0 +1,19 @@
+{% extends "/admin/user/default.html.twig" %}
+
+{# from controller #}
+{% block page_title_h1 %}users{% endblock %}
+
+{% block current_breadscrumb_title %}users{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-auto">
+            <ul class="list-group mb-4">
+                {% for user in users %}
+                    <li class="list-group-item"><a href="{{ path('admin_user_show', {id: user.id}) }}">{{ user.username }}</a></li>
+                {% endfor %}
+            </ul>
+            <a href="{{ path('admin_user_add') }}" class="btn btn-outline-primary">add</a>
+        </div>
+    </div>
+{% endblock %}

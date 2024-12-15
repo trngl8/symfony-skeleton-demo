@@ -1,11 +1,14 @@
 
+{% block styles %}
 <style>
     {# here, define your CSS styles as usual #}
     h1 {
         color: blue;
     }
 </style>
+{% endblock %}
 
+{% block content %}
 <h1>Welcome {{ email.toName }}!</h1>
 
 <p>
@@ -14,5 +17,6 @@
 <p>email: <code>{{ email.to[0].address }}</code></p>
 
 
-<p>Click link <a href="{{ url('subscribe_verify') }}">{{ url('subscribe_verify') }}</a> to activate your account</p>
+<p>Click link <a href="{{ url('subscribe_verify', {token:subscribe_token}) }}">{{ url('subscribe_verify') }}</a> to activate your account</p>
 <p>(this link is valid until {{ expiration_date|date('F jS') }})</p>
+{% endblock %}

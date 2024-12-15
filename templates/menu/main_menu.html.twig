@@ -1,0 +1,7 @@
+<ul class="nav nav-col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+
+    {% for key, item in top_menu %}
+        <li><a href="{{ path(item.route) }}" class="nav-link px-2 {% if app.request.pathinfo == item.url %}text-secondary{% endif %} position-relative">{{ item.title|trans }}</a></li>
+    {% endfor %}
+
+</ul>

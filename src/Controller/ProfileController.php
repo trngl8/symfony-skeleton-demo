@@ -3,26 +3,27 @@
 namespace App\Controller;
 
 use App\Entity\Profile;
+use App\Entity\User;
 use App\Form\ProfileType;
 use App\Repository\ProfileRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProfileController extends AbstractController
 {
-    private $doctrine;
+    private EntityManagerInterface $em;
 
-    private $repository;
+    private ProfileRepository $repository;
 
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(ProfileRepository $repository, EntityManagerInterface $em)
     {
-        $this->doctrine = $doctrine;
-
-        /** @var ProfileRepository repository */
-        $this->repository = $this->doctrine->getRepository(Profile::class);
+        $this->em = $em;
+        $this->repository = $repository;
     }
 
     #[Route('/profile', name: 'app_profile')]
@@ -32,17 +33,18 @@ class ProfileController extends AbstractController
 
         $user = $this->getUser();
 
-        $profiles = $this->repository->findBy(['email' => $user->getUserIdentifier()]);
-
         $profile = $this->repository->findOneBy(['email' => $user->getUserIdentifier()]);
 
         if(!$profile) {
+            //TODO: or 404 ?
+
+            $this->addFlash('warning', 'no_active_profile');
+
             return $this->redirectToRoute('app_profile_edit');
         }
 
         return $this->render('profile/index.html.twig', [
             'profile' => $profile,
-            'profiles' => $profiles,
         ]);
     }
 
@@ -73,7 +75,13 @@ class ProfileController extends AbstractController
         $profile = $this->repository->findOneBy(['email' => $user->getUserIdentifier()]);
 
         if(!$profile) {
-            $profile = new Profile();
+            $profile = (new Profile())
+                ->setEmail($user->getUserIdentifier())
+                ->setActive(true);
+        }
+
+        if ($request->cookies->has('APP_THEME')) {
+            $profile->theme = $request->cookies->get('APP_THEME');
         }
 
         $form = $this->createForm(ProfileType::class, $profile);
@@ -81,19 +89,43 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->doctrine->getManager();
             $profile->setEmail($user->getUserIdentifier());
-            $entityManager->persist($profile);
-            $entityManager->flush();
+
+            $this->em->persist($profile);
+            $this->em->flush();
 
             $this->addFlash('success', 'flash.success.profile_updated');
+            $response = $this->redirectToRoute('app_profile_edit');
+            $response->headers->setCookie(Cookie::create('APP_THEME', $profile->theme));
+            $request->cookies->set('APP_THEME', $profile->theme);
 
-            return $this->redirectToRoute('app_profile');
+            return $response;
         }
 
         return $this->render('profile/edit.html.twig', [
             'form' => $form->createView(),
             'profile' => $profile,
         ]);
+    }
+
+    #[Route('/profile/remove', name: 'app_profile_remove')]
+    public function remove(): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            $this->addFlash('warning', 'no_active_profile');
+            return $this->redirectToRoute('app_profile_edit');
+        }
+
+        $userRecord = $this->em->getRepository(User::class)->findOneBy(['username' => $user->getUserIdentifier()]);
+        $userRecord->setIsVerified(false);
+
+        $profile = $this->repository->findOneBy(['email' => $user->getUserIdentifier()]);
+
+        $this->em->remove($profile);
+        $this->em->flush();
+
+        // TODO: send some notification or flash message
+        return $this->redirectToRoute('logout');
     }
 }

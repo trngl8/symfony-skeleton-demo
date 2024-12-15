@@ -1,12 +1,10 @@
 {% extends 'subscribe/index.html.twig' %}
 
-{% block form %}
-    <p>{{ 'text.subscription created'|trans }}</p>
+{% block main %}
+    <p>{{ 'title.text.subscription created'|trans }}</p>
     <p>{{ item.id }}</p>
     <p>{{ item.email }}</p>
     <p>{{ item.name }}</p>
-    <p>{{ item.locale }}</p>
-    <p>{{ item.active }}</p>
-    <a href="{{ path('subscribe_list') }}" class="btn btn-lg, btn-outline-primary">Return to the list</a>
+    <a href="{{ path('default') }}" class="btn btn-outline-primary">Return to the homepage</a>
 
 {% endblock %}

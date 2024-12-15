@@ -1,0 +1,59 @@
+{% extends 'admin.html.twig' %}
+
+{% block page_title %}
+    <h1 class="mt-4">{{ 'title.cards'|trans }}</h1>
+{%endblock%}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ path('admin') }}">{{ 'menu.dashboard'|trans }}</a></li>
+        <li class="breadcrumb-item active">{{ 'menu.cards'|trans }}</li>
+    </ol>
+{% endblock %}
+
+{% block main %}
+    {% if items is defined and items|length > 0 %}
+        <table class="table">
+            <thead class="table-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Image</th>
+                <th scope="col">Code</th>
+                <th scope="col">Title</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Available</th>
+                <th scope="col">{{ 'createdAt'| trans }}</th>
+                <th scope="col">{{ 'actions'| trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>
+                        {% if item.filename  %}
+                            {# TODO: pass base path from controller #}
+                            <a href="{{ path('admin_card_show', {'id': item.id }) }}"><img src="{{ asset('upload/cards/' ~ item.id ~ '/' ~ item.filename) }}" alt="" width="32" ></a>
+                        {% endif %}
+                    </td>
+                    <td><a href="{{ path('admin_card_show', {'id': item.id }) }}">{{ item.code }}</a></td>
+                    <td><a href="{{ path('admin_card_show', {'id': item.id }) }}">{{ item.title }}</a></td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.available }}</td>
+                    <td>{{ item.createdAt|date }}</td>
+                    <td>
+                        <a href="{{ path('admin_card_show', {id: item.id}) }}" class="btn btn-sm btn-outline-secondary">{{ 'button.show'|trans }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    {% if button is defined %}
+        <a href="{{ path('admin_card_add') }}" class="btn btn-outline-primary">{{ 'button.add'|trans }}</a>
+    {% endif %}
+
+{% endblock %}

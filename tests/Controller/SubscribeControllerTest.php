@@ -13,11 +13,10 @@ class SubscribeControllerTest extends WebTestCase
 
         $client->request('GET', '/subscribe/add');
 
-        $client->submitForm('form.label.submit', [
+        $client->submitForm('Submit', [
             'subscribe[name]' => 'test',
             'subscribe[email]' => 'test@example.com',
             'subscribe[agree]' => true,
-            'subscribe[know]' => true,
         ]);
 
         $this->assertResponseIsSuccessful();
@@ -29,6 +28,7 @@ class SubscribeControllerTest extends WebTestCase
     public function testUriSuccess($uri) : void
     {
         $client = static::createClient();
+        $client->followRedirects();
         $client->request('GET', $uri);
 
         $this->assertResponseIsSuccessful();
@@ -36,6 +36,6 @@ class SubscribeControllerTest extends WebTestCase
 
     public function getUris() : iterable
     {
-        yield ['subscribe/verify'];
+        yield ['subscribe/add'];
     }
 }

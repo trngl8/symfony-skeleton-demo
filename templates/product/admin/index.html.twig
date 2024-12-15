@@ -1,0 +1,68 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}{{ 'title.product'|trans }}{% endblock %}
+
+{% block page_title %}
+    <h1 class="mt-4">{{ 'title.product'|trans }}</h1>
+{%endblock%}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ path('admin') }}">{{ 'menu.dashboard'|trans }}</a></li>
+        <li class="breadcrumb-item active">{{ 'menu.products'|trans }}</li>
+    </ol>
+{% endblock %}
+
+
+{% block main %}
+
+{#    {% block viewtype %}#}
+{#        <div class="btn-group mb-4" role="group" aria-label="View type">#}
+{#            <a href="{{ path('admin_product_index', {view: 'index'}) }}" class="btn btn-outline-secondary">Index</a>#}
+{#            <a href="{{ path('admin_product_index', {view: 'tree'}) }}" type="button" class="btn btn-outline-secondary">Tree</a>#}
+{#        </div>#}
+{#    {% endblock %}#}
+
+    {% block items %}
+        {% if items is defined and items|length > 0 %}
+            {% for item in items %}
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mt-2">
+                            <a class="btn btn-outline-secondary" href="{{ path('admin_product_show', { id: item.id }) }}">{{ item.title }}</a>
+                        </div>
+                    </div>
+                </div>
+                {% if item.products|length > 0 %}
+                    {% for level1 in item.products %}
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="mt-2 {% if level1.level > 0 %}ms-4{% endif %}">
+                                <a class="btn btn-outline-secondary" href="{{ path('admin_product_show', { id: level1.id }) }}">{{ level1.title }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% if level1.products|length > 0 %}
+                        {% for level2 in level1.products %}
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="mt-2 {% if level2.level > 0 %}ms-5{% endif %}">
+                                        <a class="btn btn-outline-secondary" href="{{ path('admin_product_show', { id: level2.id }) }}">{{ level2.title }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endblock  %}
+
+    {% if button is defined %}
+        <div class="mt-5">
+            <a href="{{ path('admin_product_add') }}" class="btn btn-outline-primary">{{ 'button.add'|trans }}</a>
+        </div>
+    {% endif %}
+
+{% endblock %}

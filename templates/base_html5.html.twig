@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block meta_additional %}{% endblock %}
+    {% block stylesheets %}{% endblock %}
+    {% block head_javascripts %}{% endblock %}
+</head>
+
+{% block body %}
+<body>
+    {% block main %}
+    <main>
+
+    </main>
+    {% endblock %}
+</body>
+{% endblock %}
+
+{% block footer %}
+    <footer></footer>
+{% endblock %}
+
+
+{% block end_javascripts %}{% endblock %}
+</html>

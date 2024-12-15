@@ -4,6 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    container.dumper.inline_factories: true
+    upload_directory: '%kernel.project_dir%/public/upload'
 
 services:
     # default configuration for services in *this* file
@@ -16,6 +18,10 @@ services:
             # that's defined in this file (including controller arguments)
             $adminEmail: '%env(resolve:APP_DEFAULT_EMAIL)%'
             $appTheme: '%env(resolve:APP_THEME)%'
+            $appName: '%env(resolve:APP_NAME)%'
+            $defaultModule: '%env(resolve:DEFAULT_MODULE)%'
+            $telegramBotId: '%env(resolve:TELEGRAM_BOT_ID)%'
+            $telegramBotToken: '%env(resolve:TELEGRAM_BOT_TOKEN)%'
             $paymentPrivateKey: '%env(resolve:APP_LIQPAY_PRIVATE_KEY)%'
             $paymentPublicKey: '%env(resolve:APP_LIQPAY_PUBLIC_KEY)%'
 

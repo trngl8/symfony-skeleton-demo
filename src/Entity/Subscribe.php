@@ -20,6 +20,20 @@ class Subscribe
     #[ORM\Column(type: 'integer')]
     private $target;
 
+    #[ORM\Column(length: 255)]
+    private string $email;
+
+    #[ORM\Column(length: 255)]
+    private string $name;
+
+    public function __construct(string $type, int $target, string $email, string $name)
+    {
+        $this->type = $type;
+        $this->target = $target;
+        $this->email = $email;
+        $this->name = $name;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -49,5 +63,9 @@ class Subscribe
         return $this;
     }
 
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
 
 }

@@ -29,7 +29,6 @@ class Invite
     private $email;
 
     #[ORM\Column(type: 'string', length: 15, nullable: true)]
-    #[Assert\NotBlank]
     private $phone;
 
     #[ORM\Column(type: 'integer', nullable: true)]
@@ -37,6 +36,9 @@ class Invite
 
     #[ORM\ManyToOne(targetEntity: Profile::class, inversedBy: 'invites')]
     private $profile; //seconds
+
+    // TODO: add mapping
+    private bool $verified = false;
 
     use TimestampTrait;
 
@@ -119,6 +121,13 @@ class Invite
     public function setProfile(?Profile $profile): self
     {
         $this->profile = $profile;
+
+        return $this;
+    }
+
+    public function setVerified(bool $verified): self
+    {
+        $this->verified = $verified;
 
         return $this;
     }

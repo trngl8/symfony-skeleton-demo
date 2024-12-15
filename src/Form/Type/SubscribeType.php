@@ -34,9 +34,6 @@ class SubscribeType extends AbstractType
             ->add('agree', CheckboxType::class, [
                 'label' => 'form.label.agree'
             ])
-            ->add('know', CheckboxType::class, [
-                'label' => 'form.label.know'
-            ])
             ->add('save', SubmitType::class, [
                 'label' => 'form.label.submit'
             ])

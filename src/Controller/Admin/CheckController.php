@@ -37,7 +37,7 @@ class CheckController extends AbstractController
     {
         $items = $this->repository->findBy([]);
 
-        $button = new LinkToRoute('check_add', 'button.add');
+        $button = new LinkToRoute('check_add', 'button.add', 'Add');
 
         if(sizeof($items) === 0) {
             $this->addFlash('warning', 'flash.warning.no_items');

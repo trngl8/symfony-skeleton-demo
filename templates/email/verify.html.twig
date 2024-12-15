@@ -1,0 +1,5 @@
+<p>Somebody tries to activate your account. If it was you, please click the following link:</p>
+
+<a href="{{ url('app_user_confirm', {token: verifyToken.token}) }}">{{ url('app_user_confirm', {token: verifyToken.token}) }}</a>
+
+<p>This link will expire in {{ verifyToken.expirationMessageKey|trans(verifyToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>

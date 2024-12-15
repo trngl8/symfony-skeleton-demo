@@ -4,6 +4,9 @@ namespace App\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @deprecated
+ */
 class Verify
 {
     #[Assert\NotBlank]

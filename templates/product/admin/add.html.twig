@@ -1,0 +1,15 @@
+{% extends 'product/admin/edit.html.twig' %}
+
+{% block title %}{{ 'title.add_product'|trans }}{% endblock %}
+
+{% block page_title %}
+    <h1 class="mt-4">{{ 'title.add_product'|trans }}</h1>
+{%endblock%}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ path('admin') }}">{{ 'menu.dashboard'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_product_index') }}">{{ 'menu.products'|trans }}</a></li>
+        <li class="breadcrumb-item active">{{ 'title.add_product'|trans }}</li>
+    </ol>
+{% endblock %}

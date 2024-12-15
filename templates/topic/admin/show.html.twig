@@ -17,35 +17,17 @@
     </ol>
 {% endblock %}
 
-{% block filters %}
-{% endblock %}
-
-{% block paginator %}
-{% endblock %}
-
 {% block main %}
     <div class="row">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <div>{{ item.type }}</div>
-                    <div>{{ item.priority }}</div>
-                    <div>{{ item.title }}</div>
-                    <div>{{ item.description }}</div>
-                    <div>{{ item.branch }}</div>
-                    <div>{{ item.createdAt|date }}</div>
-                    <div>
-                        {% if item.startedAt %}
-                            <b>Started:</b> {{ item.startedAt|date }}
-                        {% endif %}
-                    </div>
-                    <div>
-                        {% if item.closedAt %}
-                            {{ item.closedAt|date }}
-                        {% endif %}
-                    </div>
+                    <h3 class="mb-4">{{ item.title }}</h3>
+                    <div class="mb-4">{{ item.description|nl2br|raw }}</div>
                 </div>
             </div>
+
+            {# TODO: choose block for the buttons #}
             {% if  not item.startedAt %}
             <div class="mt-4">
                 <a href="{{ path('admin_topic_change', {id: item.id}) }}" class="btn btn-outline-primary"><i class="bi bi-hand-thumbs-up"></i> {{ 'button.change'|trans }}</a>
@@ -60,6 +42,26 @@
 
                 <a href="{{ path('admin_topic_edit', {id: item.id}) }}" class="btn btn-outline-secondary">{{ 'button.edit'|trans }}</a>
                 <a href="{{ path('admin_topic_remove', {id: item.id}) }}" class="btn btn-outline-danger">{{ 'button.remove'|trans }}</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-4"><b>Created:</b> {{ item.createdAt|date }}</div>
+                    <div class="mb-4"><b>Type:</b> {{ item.type }}</div>
+                    <div class="mb-4"><b>Priority:</b> {{ item.priority }}</div>
+                    <div class="mb-4"><div class="badge text-bg-primary">{{ item.branch }}</div></div>
+                    <div class="mb-4">
+                        {% if item.startedAt %}
+                            <b>Started:</b> {{ item.startedAt|date }}
+                        {% endif %}
+                    </div>
+                    <div class="mb-4">
+                        {% if item.closedAt %}
+                            {{ item.closedAt|date }}
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

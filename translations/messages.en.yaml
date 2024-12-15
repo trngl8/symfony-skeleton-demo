@@ -21,9 +21,12 @@ menu:
   features: Features
   dashboard: Dashboard
   checks: Checks
-hero:
-  caption: "Welcome to the Old School" #"The best way to manage your projects"
-  text: "Old school is the famous school in the California South East. Our history was started at 1999 from garage startup. I was looking for duck on my playground."
+  orders: Orders
+  cards: Items
+  users: Users
+  market: Market
+  integrations: Integrations
+  calendar: Calendar
 
 messages:
   login_fail: "Login failed"
@@ -34,11 +37,21 @@ messages:
   closing_agree: "Closing agree"
   change_agree: "Change agree"
   blank: "This page is blank"
+  forgot_password: "Forgot your password?"
+  authenticated_as: "You are logged in as"
+  check_email: "Check your email"
+  account_verified: "Your account has been verified"
 
 error:
   text_return_homepage: "Return to homepage"
 
 flash:
+  success:
+    removed: Removed
+    created: Created
+    updated: Updated
+    cloned: Cloned
+    profile_updated: Profile updated
   warning:
     already_logged_in: You are already logged in
 
@@ -61,6 +74,7 @@ button:
   run: Run
   remove: Remove
   red: Red
+  blue: Blue
   ok: OK
   login: Login
   export: Export
@@ -72,10 +86,30 @@ button:
   subscribe: Subscribe
   light: Light
   add: Add
+  register: Register
+  clone: Clone
+  cancel: Cancel
+  enter: Enter
+  reset: Reset
+  verify: Verify
+
+link:
+  forgot_password: Forgot your password?
+
+# Calendar
+calendar:
+  title: Calendar
+  book: Book
+  today: Today
+  yesterday: Yesterday
+  tomorrow: Tomorrow
+  sent: Sent
+  order_sent: Order was sent successfully
 
 type: Type
 total: Total
 title:
+  register: Register
   verify: Verify
   topics: Topics
   topic_run: Topic run
@@ -86,12 +120,16 @@ title:
     run: Topic run
     add:  Topic add
   subscribes: Subscribes
+  filters: Filters
   subscribe: Subscribe
   show_topic: Show topic
   show_invite: Show invite
   show_: Show
   remove: Remove
   projects: Projects
+  product: Products
+  cards: Items
+  users: Users
   project_remove: Project remove
   project: Project
   profiles: Profiles
@@ -113,9 +151,11 @@ title:
   features: Features
   edit_topic: Edit topic
   edit_project: Edit project
+  edit_product: Edit product
   edit_profile: Edit profile
   edit_invite: Edit invite
   edit_check: Edit check
+  edit_card: Edit card
   contact: Contact
   checks: Checks
   check_run: Check run
@@ -123,8 +163,10 @@ title:
   change_agree: Change agree
   add_topic: Add topic
   add_project: Add project
+  add_product: Add product
   add_invite: Add invite
   add_check: Add check
+  add_card: Add card
   accept_invite: Accept invite
   timezone: Timezone
   text:

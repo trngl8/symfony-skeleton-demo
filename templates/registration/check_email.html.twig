@@ -1,0 +1,26 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Check verification email{% endblock %}
+
+{% block breadcrumbs %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('app_index') }}">{{ 'brcmbs.home'|trans }}</a></li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.verify'|trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block main %}
+    <h1 class="mb-4">Check email</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <p>
+                An email was just sent that contains a link that you can use to verify your account.
+            </p>
+            <p>If you don't receive an email please check your spam folder.</p>
+        </div>
+    </div>
+
+{% endblock %}

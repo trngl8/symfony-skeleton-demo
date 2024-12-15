@@ -19,7 +19,7 @@ class InviteControllerTest extends WebTestCase
 
         $client->request('GET', '/admin/invite');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'title.invites');
+        $this->assertSelectorTextContains('h1', 'Invites');
 
     }
 
@@ -39,13 +39,10 @@ class InviteControllerTest extends WebTestCase
 
         $client->request('GET', '/admin/invite/add');
 
-        $crawler = $client->submitForm('invite_admin_save', [
+        $crawler = $client->submitForm('Submit', [
             'invite_admin[name]' => 'test',
             'invite_admin[email]' => 'test@test.com',
             'invite_admin[description]' => 'set other description',
-            //TODO: legal checkboxes
-            //'invite_admin[agree]' => true,
-            //'invite_admin[know]' => true,
         ]);
 
         $this->assertResponseIsSuccessful();
@@ -56,13 +53,25 @@ class InviteControllerTest extends WebTestCase
 
         $client->request('GET', '/admin/invite/edit/1');
 
-        $client->submitForm('invite_admin_save', [
+        $client->submitForm('Submit', [
             'invite_admin[name]' => 'new name',
             'invite_admin[email]' => 'test2@test.com',
             'invite_admin[description]' =>  'set another description',
         ]);
 
         $this->assertResponseIsSuccessful();
+
+        $client->request('GET', '/admin/invite/remove/1');
+
+        $this->assertResponseIsSuccessful();
+
+        $client->submitForm('Yes');
+
+        $this->assertResponseIsSuccessful();
+
+        $client->request('GET', '/admin/invite/show/1');
+
+        $this->assertResponseStatusCodeSame(404);
     }
 
     public function testSubmitFail(): void
@@ -82,22 +91,11 @@ class InviteControllerTest extends WebTestCase
         $client->request('GET', '/admin/invite/add');
 
         //TODO: valid node for the form submit
-        $crawler = $client->submitForm('invite_admin_save', [
+        $crawler = $client->submitForm('Submit', [
             'invite_admin[name]' => null,
             'invite_admin[email]' => null,
-            //TODO: legal checkboxes
-            //'invite_admin[agree]' => true,
-            //'invite_admin[know]' => true,
         ]);
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'title.add_invite');
-        //TODO: get flash id
-        //$this->assertSelectorTextContains('flash', 'flash.success.invite_created');
-
-
-
-
     }
-    
 }

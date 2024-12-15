@@ -1,0 +1,15 @@
+{% extends 'admin.html.twig' %}
+
+{% block page_title %}
+    <h1 class="mt-4">{% block page_title_h1 %} list of ... {% endblock %}</h1>
+{%endblock%}
+
+{% block current_breadscrumb %}
+    <li class="breadcrumb-item active">{% block current_breadscrumb_title %}list{% endblock %}</li>
+{% endblock %}
+
+{% block main %}
+    <ul class="list-group">
+        <li class="list-group-item"><a href="{#  #}">list item in the main block</a></li>
+    </ul>
+{% endblock %}

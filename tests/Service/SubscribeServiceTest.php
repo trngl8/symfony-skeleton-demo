@@ -47,7 +47,7 @@ class SubscribeServiceTest extends KernelTestCase
             ->disallowMockingUnknownTypes()
             ->getMock();
 
-        $subscribeService = new SubscribeService($this->doctrine, $this->profiles, $messageService);
+        $subscribeService = new SubscribeService($this->doctrine, $this->profiles, $messageService, 'admin@admin.com');
 
         //TODO: send and check confirm email link
         //TODO: choose confirmations levels

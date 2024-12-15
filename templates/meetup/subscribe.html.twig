@@ -1,0 +1,42 @@
+{% extends 'meetup/show.html.twig' %}
+
+{% block breadcrumbs %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('app_index') }}">{{ 'menu.home'|trans }}</a></li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ path('app_meetups_index') }}">Meetups</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="{{ path('app_meetups_show', {id: meetup.id}) }}">{{ meetup.title }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Subscribe meetup</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="card text-bg-light mb-4">
+        <div class="card-body">
+            <p class="card-title">Get more features</p>
+            <p class="card-text">Subscribe to get more information about team and product</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block card_actions %}
+    <p class="lead">Fill your data</p>
+    {% if form is not defined %}
+        <p>There is no form to display</p>
+    {% else %}
+        {% form_theme form 'bootstrap_5_horizontal_layout.html.twig' %}
+        {{ form_start(form) }}
+        {{ form_rest(form) }}
+        <div class="mb-3 row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-lg btn-outline-primary">Subscribe</button>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    {% endif %}
+{% endblock %}
+
+

@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\Topic;
+use App\Entity\Invite;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -42,11 +42,16 @@ class InviteService
         return new Paginator($this->query, true);
     }
 
-    public function close(Topic $topic) : bool
+    public function close(Invite $invite) : bool
     {
-        $topic->setClosedAt(new \DateTime());
+        $invite->setClosedAt(new \DateTime());
         $this->doctrine->getManager()->flush();
 
         return true;
+    }
+
+    public function export() : array
+    {
+        return $this->query->getArrayResult();
     }
 }

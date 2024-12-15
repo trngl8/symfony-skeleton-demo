@@ -1,0 +1,28 @@
+{% extends 'admin/calendar/default.html.twig' %}
+
+{% block page_title %}
+    <h1 class="mt-4">{{ 'title.cards'|trans }}</h1>
+{%endblock%}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ path('admin') }}">{{ 'menu.dashboard'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_calendar_index') }}">{{ 'calendar.title'|trans }}</a></li>
+        <li class="breadcrumb-item active">{{ 'calendar.new'|trans }}</li>
+    </ol>
+{% endblock %}
+
+{% block main %}
+<div class="row">
+    <div class="col-md-8">
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+        {{ form_rest(form) }}
+        <div class="mt-4 mb-4">
+            <button type="submit" class="btn btn-lg btn-outline-primary">{{ 'button.submit'|trans }}</button>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

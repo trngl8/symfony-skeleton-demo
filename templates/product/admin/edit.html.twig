@@ -1,0 +1,40 @@
+{% extends 'product/admin/index.html.twig' %}
+
+{% block title %}{{ 'title.edit_product'|trans }}{% endblock %}
+
+{% block page_title %}
+    <h1 class="mt-4">{{ 'title.edit_product'|trans }}</h1>
+{%endblock%}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ path('admin') }}">{{ 'menu.dashboard'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_product_index') }}">{{ 'menu.products'|trans }}</a></li>
+        <li class="breadcrumb-item active">{{ 'title.edit_product'|trans }}</li>
+    </ol>
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-8">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+            {{ form_row(form.parent) }}
+            {{ form_row(form.title) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.fees) }}
+            {% block filename %}
+                {% if item is defined and item.filename  %}
+                    <img src="{{ asset('upload/products/' ~ item.id ~ '/' ~ item.filename) }}" alt="" width="100" >
+                {% endif %}
+            {% endblock %}
+            {{ form_row(form.image) }}
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-lg btn-primary ">{{ 'button.submit'|trans }}</button>
+            </div>
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+{% endblock %}

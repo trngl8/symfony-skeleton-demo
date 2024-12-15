@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/invite', name: 'admin_invite_')]
 class InviteController extends AbstractController
 {
-    CONST PAGINATOR_COUNT = 2;
+    CONST PAGINATOR_COUNT = 20;
     CONST START_PAGE = 1;
     CONST MIN_COUNT = 0;
 
@@ -62,13 +62,15 @@ class InviteController extends AbstractController
         }
 
         if($c === self::MIN_COUNT) {
-            $this->addFlash('warning', 'flash.warning.no_items');
+            $pages = $pages ?? [];
         }
 
-        $pages = range(self::START_PAGE, ceil($c / (self::PAGINATOR_COUNT + 1)));
+        if($c > 0) {
+            $pages = range(self::START_PAGE, ceil($c / (self::PAGINATOR_COUNT + 1)));
+        }
 
         return $this->render('invite/admin/index.html.twig', [
-            'button' => new LinkToRoute('invite_add', 'button.add'),
+            'button' => new LinkToRoute('invite_add', 'button.add', 'Add'),
             'paginator' => $paginator,
             'count' => $c,
             'page' => $page,
@@ -90,7 +92,7 @@ class InviteController extends AbstractController
             $entityManager->persist($invite);
             $entityManager->flush();
 
-            $this->addFlash('success', 'flash.success.invite_created');
+            $this->addFlash('success', 'flash.success.created');
 
             return $this->redirectToRoute('admin_invite_index');
         }
@@ -127,7 +129,7 @@ class InviteController extends AbstractController
             $entityManager->persist($invite);
             $entityManager->flush();
 
-            $this->addFlash('success', 'flash.success.topic_updated');
+            $this->addFlash('success', 'flash.success.updated');
 
             return $this->redirectToRoute('admin_invite_index');
         }
@@ -138,4 +140,63 @@ class InviteController extends AbstractController
         ]);
     }
 
+    #[Route('/remove/{id}', name: 'remove', methods: ['GET', 'POST', 'HEAD'] )]
+    public function remove(Invite $item, Request $request) : Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $submittedToken = $request->request->get('token');
+
+        if ($this->isCsrfTokenValid('remove', $submittedToken)) {
+            $entityManager = $this->doctrine->getManager();
+            $entityManager->remove($item);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'flash.success.removed');
+
+            return $this->redirectToRoute('admin_invite_index');
+        }
+
+        return $this->render('invite/admin/remove.html.twig', [
+            'item' => $item,
+        ]);
+    }
+
+    #[Route('/export', name: 'export', methods: ['GET', 'POST', 'HEAD'] )]
+    public function export() : Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $invites = $this->inviteService->addCriteria([])->getPaginator(1, 1000);
+        $rows = array_map(function ($item) {
+            return [
+                $item->getId(),
+                $item->getName(),
+                $item->getDescription(),
+                $item->getEmail(),
+                $item->getPhone(),
+                $item->getCreatedAt()->format('Y-m-d H:i:s'),
+                $item->getClosedAt() ? $item->getClosedAt()->format('Y-m-d H:i:s') : null
+            ];
+        }, $invites->getIterator()->getArrayCopy());
+
+        //TODO: generate columns dynamically
+        $columns = ['#', 'Name', 'Description', 'Email', 'Phone', 'Created At', 'Closed At'];
+        $list =[
+            $columns,
+            ...$rows
+        ];
+
+        $fp = fopen('php://output', 'w');
+
+        foreach ($list as $fields) {
+            fputcsv($fp, $fields);
+        }
+
+        $response = new Response();
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', sprintf('attachment; filename="invites-export-%s.csv"', date('Y-m-d')));
+
+        return $response;
+    }
 }

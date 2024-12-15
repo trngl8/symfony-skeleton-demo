@@ -1,0 +1,22 @@
+{% extends 'admin.html.twig' %}
+
+{% block page_title %}
+    <h1 class="mt-4">Integrations</h1>
+{%endblock%}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ path('admin') }}">{{ 'menu.dashboard'|trans }}</a></li>
+        <li class="breadcrumb-item active">Integrations</li>
+    </ol>
+{%endblock%}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-2">
+            <a href="{{ path('admin_integration_telegram_show', {id: providers.telegram[0]}) }}" class="btn btn-lg btn-outline-primary">
+                <i class="bi bi-telegram"></i> {{ providers.telegram[0] }}
+            </a>
+        </div>
+    </div>
+{% endblock %}

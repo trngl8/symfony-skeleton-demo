@@ -9,11 +9,16 @@ class LinkToRoute
 
     public function __construct(
         private readonly string $route,
-        private readonly string $caption,
-        private readonly string $type = 'primary',
+        private readonly string $type,
+        private string $caption,
         private readonly string $icon = '',
     )
     {
+        $this->caption = match ($this->type) {
+            'first' => 'Enter',
+            'second' => 'Back',
+            default => $this->caption,
+        };
     }
 
     public function getClasses() : string

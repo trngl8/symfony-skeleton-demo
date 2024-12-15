@@ -4,7 +4,9 @@ twig:
     globals:
         app_name: '%env(APP_NAME)%'
         app_version: '%env(APP_VERSION)%'
-        app_navbar: '%env(APP_NAVBAR)%'
+        app_theme: '%env(APP_THEME)%'
+        app_default_module: '%env(DEFAULT_MODULE)%'
+        ga_tracking: '%env(GA_TRACKING)%'
 
 when@test:
     twig:

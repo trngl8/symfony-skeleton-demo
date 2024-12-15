@@ -1,5 +1,7 @@
 .idea
 
+/public/upload/
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -15,6 +17,8 @@
 /public/build/
 npm-debug.log
 yarn-error.log
+.yarn
+.yarnrc.yml
 ###< symfony/webpack-encore-bundle ###
 
 ###> symfony/phpunit-bridge ###
@@ -22,7 +26,4 @@ yarn-error.log
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
-###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
-###< phpunit/phpunit ###
+/tests/external.http

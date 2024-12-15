@@ -1,0 +1,36 @@
+{% extends 'profile/admin/index.html.twig' %}
+
+{% block title %}{{ item.name }}{% endblock %}
+
+{% block page_title %}
+    <h1 class="mt-4">{{ item.name }}</h1>
+{%endblock%}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ path('admin') }}">{{ 'menu.dashboard'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_profile_index') }}">{{ 'menu.profiles'|trans }}</a></li>
+        <li class="breadcrumb-item active">{{ item.name }}</li>
+    </ol>
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <p>{{ item.name }}</p>
+                    <p>{{ item.locale }}</p>
+                    <p>{{ item.email }}</p>
+                    <p>{{ item.active }}</p>
+                    <p>{{ item.timezone }}</p>
+                </div>
+            </div>
+            <div class="mt-4">
+                {% block edit_button %}
+                <a href="{{ path('admin_profile_edit', {id: item.id}) }}" class="btn btn-outline-secondary">{{ 'button.edit'|trans }}</a>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

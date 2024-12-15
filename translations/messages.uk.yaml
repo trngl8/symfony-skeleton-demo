@@ -1,0 +1,108 @@
+action:
+  yes: Так
+  no: Ні
+app:
+  inbox: Вхідні
+  profile: Профіль
+  orders: Замовлення
+  logout: Вихід
+  invites: Запрошення
+menu:
+  topics: Задачі
+  projects: Проєкти
+  project: Проєкт
+  profiles: Профілі
+  products: Продукти
+  offers: Пропозиції
+  offer: Пропозиція
+  invites: Запрошення
+  index: Індекс
+  home: Головна
+  features: Цілі
+  dashboard: Панель управління
+  checks: Перевірки
+  orders: Замовлення
+  cards: Картки
+  users: Користувачі
+  market: Market
+  integrations: Інтеграції
+  calendar: Календар
+hero:
+  caption: "Welcome to the Old School" #"The best way to manage your projects"
+  text: "Old school is the famous school in the California South East. Our history was started at 1999 from garage startup. I was looking for duck on my playground."
+
+messages:
+  login_fail: "Login failed"
+  security_not_implement: "Security not implemented"
+  run_agree: "Run agree"
+  removing_agree: "Removing agree"
+  no_items: "No items"
+  closing_agree: "Closing agree"
+  change_agree: "Change agree"
+  blank: "This page is blank"
+  forgot_password: "Забули пароль?"
+  authenticated_as: "Ви увійшли як"
+  check_email: "Перевірте вашу електронну пошту"
+  account_verified: "Ваш обліковий запис підтверджено"
+
+error:
+  text_return_homepage: "Return to homepage"
+
+flash:
+  success:
+    removed: Видалено
+    created: Створено
+    updated: Оновлено
+    cloned: Клоновано
+    profile_updated: Профіль оновлено
+  warning:
+    already_logged_in: You are already logged in
+
+form:
+  label:
+    remember_me: Remember me
+    password: Password
+    email: Email
+    name: Name
+    locale: Locale
+    agree: Agree
+    know: Know
+    submit: Submit
+
+# button should have a context (e.g. button: {save: Save, cancel: Cancel})
+button:
+  submit_and_add: Submit and add
+  submit: Відправити
+  show: Показати
+  run: Запустити
+  remove: Видалити
+  red: Червоний
+  blue: Синій
+  ok: OK
+  login: Вхід
+  export: Експорт
+  edit: Редагувати
+  close: Закрити
+  change: Змінити
+  add_option: Додати опцію
+  more: Більше
+  subscribe: Підписка
+  light: Світлий
+  add: Додати
+  register: Реєстрація
+  clone: Клонувати
+  cancel: Скасувати
+  enter: Вхід
+  reset: Скинути
+  verify: Підтвердити
+
+# Calendar
+calendar:
+  title: Календар
+  book: Забронювати
+  today: Сьогодні
+  yesterday: Вчора
+  tomorrow: Завтра
+  sent: Відправлено
+  order_sent: Заявку успішно відправлено
+

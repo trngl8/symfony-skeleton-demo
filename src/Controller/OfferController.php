@@ -62,7 +62,10 @@ class OfferController extends AbstractController
                 $orderRequest->description = $user->getUserIdentifier();
             }
 
-            $order = new Order($offer, $orderRequest->description, $orderRequest->description);
+            $order = (new Order())
+                ->setOffer($offer)
+                ->setDescription($orderRequest->description)
+            ;
 
             $session->set('cart', []);
             $this->doctrine->getManager()->persist($order);

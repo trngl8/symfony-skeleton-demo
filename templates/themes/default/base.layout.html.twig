@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/svg+xml" href="{{ asset('favicons/favicon.svg') }}">
+    <link rel="alternate icon" type="image/png" sizes="16x16" href="{{ asset('favicons/favicon16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicons/apple-touch-icon.png') }}" />
+
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock stylesheets %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock javascripts %}
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J54WS5JZLS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', '{{ ga_tracking }}');
+    </script>
+</head>
+
+{% block body %}
+    <body class="d-flex h-100 text-white bg-dark">
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+            <header class="mb-auto">
+                <div class="text-end">
+{#                    <a href="{{ path('login') }}" class="btn btn-sm btn-outline-secondary" title="{{ 'login'|trans }}"><i class="bi bi-person"></i></a>#}
+                </div>
+            </header>
+
+            {% block main %}
+            <div class="container ">
+                <div class="row justify-content-md-center">
+                    <div class="col-md-8">
+                        {% for flash_error in app.flashes('error') %}
+                            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                        {% endfor %}
+
+                        {% for flash_error in app.flashes('warning') %}
+                            <div class="alert alert-warning" role="alert">{{ flash_error }}</div>
+                        {% endfor %}
+
+                        {% for flash_error in app.flashes('success') %}
+                            <div class="alert alert-success" role="alert">{{ flash_error }}</div>
+                        {% endfor %}
+
+                        {% block content %}
+                        {% endblock %}
+
+                    </div>
+                </div>
+            </div>
+            {% endblock %}
+
+            <footer class="text-center mt-auto text-white-50">
+                <p>Owners by <a href="https://" class="text-white">{{ app_name }}</a> {{ app_version }} ({{ app.environment|upper }}).</p>
+            </footer>
+        </div>
+    </body>
+{% endblock %}
+
+{% if app.environment|lower == 'dev' %}
+<!-- Page rendered on {{ 'now'|format_datetime('long', 'long', '', 'UTC') }} -->
+{% endif %}
+
+</html>

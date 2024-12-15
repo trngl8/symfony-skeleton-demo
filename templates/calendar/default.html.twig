@@ -1,0 +1,50 @@
+{% extends 'default/index.html.twig' %}
+
+{% block breadcrumbs %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('app_index') }}">{{ 'menu.home'|trans }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ 'menu.calendar'|trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block hero %}
+{% endblock %}
+
+{% block main %}
+    <div class="py-5">
+        <h1 class="display-5 mb-5">{{ 'calendar.title'|trans }}</h1>
+        <hr class="hr" />
+        <h2 class="mb-4">{{ 'calendar.today'|trans }}, {{ "today"|date('d F') }}</h2>
+
+        {% for item in todayItems %}
+        {% set type = item.type ?? 'primary' %}
+        <div class="btn-group">
+            <button class="btn btn-lg btn-outline-{{ type }} disabled" type="button">
+                {{ item.startAt|date('H:i') }}
+            </button>
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <div class="py-5">
+        <h3 class="mb-4">{{ 'calendar.tomorrow'|trans }}, {{ "tomorrow"|date('d F') }}</h3>
+
+        {% for item in tomorrowItems %}
+        {% set type = item.type ?? 'primary' %}
+        <div class="btn-group">
+            <button class="btn btn-lg btn-outline-{{ type }} dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="25min">
+                {{ item.startAt|date('H:i') }}
+                <span class="badge text-bg-light">{{ item.duration * 25 }} min</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ path('app_calendar_order', {uuid:item.uuid}) }}">{{ 'calendar.book'|trans }}</a></li>
+            </ul>
+        </div>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

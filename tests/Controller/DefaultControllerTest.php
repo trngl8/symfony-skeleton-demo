@@ -9,6 +9,7 @@ class DefaultControllerTest extends WebTestCase
     public function testHomeSuccess(): void
     {
         $client = static::createClient();
+
         $crawler = $client->request('GET', '/');
 
         $this->assertResponseIsSuccessful();
@@ -34,7 +35,6 @@ class DefaultControllerTest extends WebTestCase
         yield ['offer'];
         yield ['contact'];
         yield ['register'];
-        yield ['app'];
         yield ['restricted'];
         yield ['product'];
         yield ['cart'];

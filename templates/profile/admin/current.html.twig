@@ -1,0 +1,5 @@
+{% extends 'profile/admin/show.html.twig' %}
+
+{% block edit_button %}
+    <a href="{{ path('admin_profile_current_edit') }}" class="btn btn-outline-secondary">{{ 'button.edit'|trans }}</a>
+{% endblock %}

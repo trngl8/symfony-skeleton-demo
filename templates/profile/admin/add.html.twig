@@ -1,0 +1,13 @@
+{% extends 'profile/admin/edit.html.twig' %}
+
+{% block page_title %}
+    <h1 class="mt-4">{{ 'title.add_profile'|trans }}</h1>
+{%endblock%}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ path('admin') }}">{{ 'menu.dashboard'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_profile_index') }}">{{ 'menu.profiles'|trans }}</a></li>
+        <li class="breadcrumb-item active">{{ 'title.add_profile'|trans }}</li>
+    </ol>
+{% endblock %}

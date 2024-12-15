@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{{ app_name }} {{ app_version }}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {#        <link rel="icon" href="/favicon.ico">#}
+    <link rel="shortcut icon" type="image/svg+xml" href="{{ asset('favicons/favicon.svg') }}">
+    <link rel="alternate icon" type="image/png" sizes="16x16" href="{{ asset('favicons/favicon16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicons/apple-touch-icon.png') }}" />
+
+    {#        <meta property="og:title" content="A Basic HTML5 Template">#}
+    {#        <meta property="og:type" content="website">#}
+    {#        <meta property="og:url" content="https://localhost/url">#}
+    {#        <meta property="og:description" content="A simple HTML5 Template for new projects.">#}
+    {#        <meta property="og:image" content="image.png">#}
+
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock stylesheets %}
+
+    {#    <link rel="canonical" href="{{ '' }}">#}
+
+    {% block add_stylesheets %}{%endblock%}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock javascripts %}
+
+    <style>
+        .bg-dark {
+            background-color: #000000 !important;
+        }
+        .bi-bootstrap-fill {
+            color: #EB5D2A;
+        }
+        .btn-hamburger {
+            color: #000000; /* background */
+            padding: 4px;
+        }
+        .navbar-dark .bi-list {
+            color: white;
+        }
+
+        .navbar-dark .navbar-brand {
+            margin-right: 4px;
+        }
+
+        .btn-primary {
+            --bs-btn-bg: #EB5D2A;
+            --bs-btn-border-color: #EB5D2A;
+            --bs-btn-hover-bg: #000000;
+            --bs-btn-hover-border-color: #000000;
+            --bs-btn-active-bg: #000000;
+            --bs-btn-active-border-color: #000000;
+        }
+
+        .btn-default {
+            --bs-btn-bg: #000000;
+            --bs-btn-border-color: #000000;
+            --bs-btn-color: white;
+        }
+
+        .btn-notes {
+
+        }
+
+        .btn-order .bi{
+            color: #EB5D2A;;
+        }
+
+        .btn-order {
+            --bs-btn-bg: white;
+            --bs-btn-border-color: #EB5D2A;
+            --bs-btn-hover-bg: #000000;
+            --bs-btn-hover-border-color: #000000;
+            --bs-btn-active-bg: #000000;
+            --bs-btn-active-border-color: #000000;
+            color: black;
+        }
+
+        .availability-status {
+            background-color: #37BB6C;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 5px;
+        }
+
+        .rating-stars {
+            color: lightgray;
+        }
+
+        footer {
+            color: white;
+            padding: 20px;
+        }
+
+        .social-icons {
+            color: white;
+            font-size: 2.5rem;
+        }
+
+        footer .caption {
+            color: gray;
+            font-size: small;
+        }
+
+        footer .contact {
+            font-size: 2rem;
+        }
+
+        footer P {
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+        }
+        footer A {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer A:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+{#<nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Ninth navbar example">#}
+{#    <div class="container-xl">#}
+{#        <button class="navbar-toggler btn-hamburger" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07XL" aria-controls="navbarsExample07XL" aria-expanded="false" aria-label="Toggle navigation">#}
+{#            <span class=""><i class="bi bi-list"></i></span>#}
+{#        </button>#}
+
+{#        <a class="navbar-brand" href="#"><i class="bi bi-bootstrap-fill"></i></a>#}
+
+{#        <div class="collapse navbar-collapse" id="navbarsExample07XL">#}
+{#            <ul class="navbar-nav me-auto mb-2 mb-lg-0">#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link active" aria-current="page" href="#">Home</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="#">Link</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link disabled">Disabled</a>#}
+{#                </li>#}
+{#                <li class="nav-item dropdown">#}
+{#                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>#}
+{#                    <ul class="dropdown-menu">#}
+{#                        <li><a class="dropdown-item" href="#">Action</a></li>#}
+{#                        <li><a class="dropdown-item" href="#">Another action</a></li>#}
+{#                        <li><a class="dropdown-item" href="#">Something else here</a></li>#}
+{#                    </ul>#}
+{#                </li>#}
+{#            </ul>#}
+{#        </div>#}
+{#    </div>#}
+{#</nav>#}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Ninth navbar example">
+    <div class="container-xxl">
+        <button class="navbar-toggler btn-hamburger" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07XL" aria-controls="navbarsExample07XL" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""><i class="bi bi-list"></i></span>
+        </button>
+
+        {#        <a class="navbar-brand" href="#"><i class="bi bi-bootstrap-fill"></i></a>#}
+
+        <div class="collapse navbar-collapse" id="navbarsExample07XL">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ path('default') }}">Home</a>
+                </li>
+{#                                <li class="nav-item">#}
+{#                                    <a class="nav-link" href="#">Link</a>#}
+{#                                </li>#}
+{#                                <li class="nav-item">#}
+{#                                    <a class="nav-link disabled">Disabled</a>#}
+{#                                </li>#}
+{#                                <li class="nav-item dropdown">#}
+{#                                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>#}
+{#                                    <ul class="dropdown-menu">#}
+{#                                        <li><a class="dropdown-item" href="#">Action</a></li>#}
+{#                                        <li><a class="dropdown-item" href="#">Another action</a></li>#}
+{#                                        <li><a class="dropdown-item" href="#">Something else here</a></li>#}
+{#                                    </ul>#}
+{#                                </li>#}
+            </ul>
+        </div>
+
+        {% if app.user %}
+        <a class="btn btn-outline-secondary dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person"></i> {{ app.user.username }}</a>
+        <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{{ path('app_profile') }}">{{ 'app.profile'|trans }}</a></li>
+            <li><a class="dropdown-item" href="{{ path('admin_inbox') }}">{{ 'navbar.activity'|trans  }}</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" href="{{ path('logout')}}">{{ 'navbar.logout'|trans  }}</a></li>
+        </ul>
+        {% endif %}
+
+    </div>
+</nav>
+
+<nav class="navbar navbar-expand-lg bg-light rounded" aria-label="Eleventh navbar example">
+    <div class="container-xl">
+        <!--            <a class="navbar-brand" href="#"><i class="bi bi-bootstrap-fill"></i></a>-->
+
+        <button class="navbar-toggler btn-hamburger" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""><i class="bi bi-list"></i></span>
+        </button>
+
+        <div class="me-5">
+            <svg width="103" height="18" viewBox="0 0 103 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4.304 17H0.512V0.991999H4.304V6.8C5.664 5.52 7.224 4.88 8.984 4.88C10.888 4.88 12.424 5.464 13.592 6.632C14.776 7.784 15.368 9.296 15.368 11.168C15.368 13.008 14.776 14.52 13.592 15.704C12.408 16.856 10.872 17.432 8.984 17.432C7.224 17.432 5.664 16.792 4.304 15.512V17ZM7.76 14.936C8.88 14.936 9.76 14.608 10.4 13.952C11.04 13.296 11.36 12.392 11.36 11.24C11.36 10.008 11.04 9.056 10.4 8.384C9.776 7.712 8.888 7.376 7.736 7.376C6.632 7.376 5.76 7.72 5.12 8.408C4.48 9.096 4.16 10.032 4.16 11.216C4.16 12.4 4.472 13.32 5.096 13.976C5.736 14.616 6.624 14.936 7.76 14.936ZM32.5421 17H28.7501V15.44C27.9021 16.144 27.0861 16.664 26.3021 17C25.5661 17.288 24.6861 17.432 23.6621 17.432C21.6941 17.432 20.1981 16.944 19.1741 15.968C18.6781 15.504 18.3501 14.952 18.1901 14.312C18.0141 13.64 17.9261 12.672 17.9261 11.408V5.312H21.7181V11.792C21.7181 12.816 21.9661 13.544 22.4621 13.976C23.0541 14.472 23.9341 14.72 25.1021 14.72C26.2221 14.72 27.1261 14.456 27.8141 13.928C28.4381 13.48 28.7501 12.768 28.7501 11.792V5.312H32.5421V17ZM50.0186 17H46.2266V15.512C44.8666 16.792 43.3066 17.432 41.5466 17.432C39.6426 17.432 38.0986 16.856 36.9146 15.704C35.7466 14.536 35.1626 13.016 35.1626 11.144C35.1626 9.288 35.7466 7.784 36.9146 6.632C38.0826 5.464 39.6266 4.88 41.5466 4.88C43.3066 4.88 44.8666 5.52 46.2266 6.8V0.991999H50.0186V17ZM39.1706 11.144C39.1706 12.36 39.4826 13.296 40.1066 13.952C40.7306 14.608 41.6186 14.936 42.7706 14.936C43.9066 14.936 44.7866 14.616 45.4106 13.976C46.0506 13.32 46.3706 12.4 46.3706 11.216C46.3706 10.032 46.0506 9.096 45.4106 8.408C44.7706 7.72 43.8986 7.376 42.7946 7.376C41.6586 7.376 40.7706 7.712 40.1306 8.384C39.4906 9.056 39.1706 9.976 39.1706 11.144ZM56.8274 17H53.0354V0.991999H56.8274V6.8C58.1874 5.52 59.7474 4.88 61.5074 4.88C63.4114 4.88 64.9474 5.464 66.1154 6.632C67.2994 7.784 67.8914 9.296 67.8914 11.168C67.8914 13.008 67.2994 14.52 66.1154 15.704C64.9314 16.856 63.3954 17.432 61.5074 17.432C59.7474 17.432 58.1874 16.792 56.8274 15.512V17ZM60.2834 14.936C61.4034 14.936 62.2834 14.608 62.9234 13.952C63.5634 13.296 63.8834 12.392 63.8834 11.24C63.8834 10.008 63.5634 9.056 62.9234 8.384C62.2994 7.712 61.4114 7.376 60.2594 7.376C59.1554 7.376 58.2834 7.72 57.6434 8.408C57.0034 9.096 56.6834 10.032 56.6834 11.216C56.6834 12.4 56.9954 13.32 57.6194 13.976C58.2594 14.616 59.1474 14.936 60.2834 14.936ZM85.0655 17H81.2735V15.44C80.4255 16.144 79.6095 16.664 78.8255 17C78.0895 17.288 77.2095 17.432 76.1855 17.432C74.2175 17.432 72.7215 16.944 71.6975 15.968C71.2015 15.504 70.8735 14.952 70.7135 14.312C70.5375 13.64 70.4495 12.672 70.4495 11.408V5.312H74.2415V11.792C74.2415 12.816 74.4895 13.544 74.9855 13.976C75.5775 14.472 76.4575 14.72 77.6255 14.72C78.7455 14.72 79.6495 14.456 80.3375 13.928C80.9615 13.48 81.2735 12.768 81.2735 11.792V5.312H85.0655V17ZM102.542 17H98.75V15.512C97.39 16.792 95.83 17.432 94.07 17.432C92.166 17.432 90.622 16.856 89.438 15.704C88.27 14.536 87.686 13.016 87.686 11.144C87.686 9.288 88.27 7.784 89.438 6.632C90.606 5.464 92.15 4.88 94.07 4.88C95.83 4.88 97.39 5.52 98.75 6.8V0.991999H102.542V17ZM91.694 11.144C91.694 12.36 92.006 13.296 92.63 13.952C93.254 14.608 94.142 14.936 95.294 14.936C96.43 14.936 97.31 14.616 97.934 13.976C98.574 13.32 98.894 12.4 98.894 11.216C98.894 10.032 98.574 9.096 97.934 8.408C97.294 7.72 96.422 7.376 95.318 7.376C94.182 7.376 93.294 7.712 92.654 8.384C92.014 9.056 91.694 9.976 91.694 11.144Z" fill="#EB5D2A"/>
+            </svg>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarsExample09">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-ui-checks-grid"></i> Catalog
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"></a>
+                </li>
+                <li class="nav-item ms-5">
+                    <form>
+                        <div class="input-group">
+                            <label class="input-group-text" for="inputGroupSelect01"><i class="bi bi-search"></i></label>
+                            <input class="form-control" type="search" placeholder="Search" aria-label="Search"  id="inputGroupSelect01">
+                        </div>
+                    </form>
+                </li>
+            </ul>
+            <a href="" class="btn btn-outline-secondary btn-favorites me-2"><i class="bi bi-heart"></i></a>
+            <a href="" class="btn btn-outline-secondary btn-notes me-2"><i class="bi bi-stickies"></i></a>
+            <a href="" class="btn btn-primary me-2">Login</a>
+            <a href="" class="btn btn-outline-secondary btn-cart"><i class="bi bi-cart"></i></a>
+        </div>
+    </div>
+</nav>
+
+
+
+<main>
+    {% block top_categories %}
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-md-3 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        Будівельні матеріали
+                        <img src="images/blank.png"  alt="Будівельні матеріали" width="60" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        Бетон, арматура
+                        <img src="images/blank.png"  alt="Будівельні матеріали" width="60" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        Електрика
+                        <img src="images/blank.png"  alt="Будівельні матеріали" width="60" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        Сантехніка
+                        <img src="images/blank.png"  alt="Будівельні матеріали" width="60" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block popular %}
+    <div class="container mt-4">
+        <p>Популярні запити</p>
+        <a href=""><span class="badge bg-secondary">цемент</span></a>
+        <a href=""><span class="badge bg-secondary">штукатурка</span></a>
+        <a href=""><span class="badge bg-secondary">пісок</span></a>
+        <a href=""><span class="badge bg-secondary">грунтовка</span></a>
+        <a href=""><span class="badge bg-secondary">шпаклівка</span></a>
+        <a href=""><span class="badge bg-secondary">гідроізоляція</span></a>
+    </div>
+    {% endblock %}
+    <!--    <div class="container mt-4">-->
+    <!--        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">-->
+    <!--            <div class="carousel-inner">-->
+    <!--                <div class="carousel-item">-->
+    <!--                    <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: First slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#555" dy=".3em">First slide</text></svg>-->
+
+    <!--                </div>-->
+    <!--                <div class="carousel-item">-->
+    <!--                    <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Second slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#666"></rect><text x="50%" y="50%" fill="#444" dy=".3em">Second slide</text></svg>-->
+
+    <!--                </div>-->
+    <!--                <div class="carousel-item active">-->
+    <!--                    <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Third slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#555"></rect><text x="50%" y="50%" fill="#333" dy=".3em">Third slide</text></svg>-->
+
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">-->
+    <!--                <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+    <!--                <span class="visually-hidden">Previous</span>-->
+    <!--            </button>-->
+    <!--            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">-->
+    <!--                <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+    <!--                <span class="visually-hidden">Next</span>-->
+    <!--            </button>-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+    <div class="container mt-4">
+        {% block content %}
+        {% if cards is defined and cards|length > 0 %}
+            <h3>Популярні товари</h3>
+            <div class="row mt-4">
+                {% for card in cards %}
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="main-img">
+                                    <div class="float-end">
+                                        <a href="" class="btn btn-outline-secondary"><i class="bi bi-heart"></i></a>
+                                    </div>
+{#                                    <a href="#"><img src="images/item1_img.png" alt="" height="240"></a>#}
+                                    <div class="float-start availability-status">
+                                        В наявності
+                                    </div>
+                                </div>
+                                <br>
+                                <br>
+                                <div class="rating-stars">
+                                    <i class="bi bi-star"></i>
+                                    <i class="bi bi-star"></i>
+                                    <i class="bi bi-star"></i>
+                                    <i class="bi bi-star"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+
+                                <p>{{ card.title }} {{ card.code }}</p>
+                                <p>126.90 ₴/шт. </p>
+                                <div class="d-grid">
+                                    <a href="{{ path('admin_market_show', { id: card.id}) }}" class="btn btn-outline-primary btn-order"><i class="bi bi-truck"></i> Доставка 1-2 дні</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endblock %}
+        </div>
+</main>
+
+{% block footer %}
+<footer class="py-5 bg-dark mt-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-10">
+                <div class="social-icons">
+                    <i class="bi bi-facebook"></i>
+                    <i class="bi bi-instagram"></i>
+                    <i class="bi bi-telegram"></i>
+                </div>
+
+
+            </div>
+            <div class="col-2">
+                <div class="float-end">
+                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="40" cy="40" r="40" fill="#EB5D2A"/>
+                        <path d="M33.3111 55H25.7271V22.984H33.3111V34.6C36.0311 32.04 39.1511 30.76 42.6711 30.76C46.4791 30.76 49.5511 31.928 51.8871 34.264C54.2551 36.568 55.4391 39.592 55.4391 43.336C55.4391 47.016 54.2551 50.04 51.8871 52.408C49.5191 54.712 46.4471 55.864 42.6711 55.864C39.1511 55.864 36.0311 54.584 33.3111 52.024V55ZM40.2231 50.872C42.4631 50.872 44.2231 50.216 45.5031 48.904C46.7831 47.592 47.4231 45.784 47.4231 43.48C47.4231 41.016 46.7831 39.112 45.5031 37.768C44.2551 36.424 42.4791 35.752 40.1751 35.752C37.9671 35.752 36.2231 36.44 34.9431 37.816C33.6631 39.192 33.0231 41.064 33.0231 43.432C33.0231 45.8 33.6471 47.64 34.8951 48.952C36.1751 50.232 37.9511 50.872 40.2231 50.872Z" fill="white"/>
+                    </svg>
+
+                    <img src="images/logo-sm-b.png" alt="" width="80">
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-3">
+                <p class="caption">Контакти</p>
+                <p class="contact">050 367 26 39</p>
+                <p class="contact"><a href="">info@budubud.pro</a></p>
+                <p>з 7.00 до 23.00</p>
+            </div>
+
+            <div class="col-2">
+                <p class="caption">Компанія</p>
+                <p><a href="#">Про компанію</a></p>
+                <p><a href="#">Постачальникам</a></p>
+                <p><a href="#">Контакти</a></p>
+                <p><a href="#">Партнери</a></p>
+            </div>
+
+            <div class="col-2">
+                <p class="caption">Покупцеві</p>
+                <p><a href="#">Оплата</a></p>
+                <p><a href="#">Доставка</a></p>
+                <p><a href="#">Гарантія</a></p>
+                <p><a href="#">Повернення</a></p>
+            </div>
+
+            <div class="col-2">
+                <p class="caption">Інформація</p>
+                <p><a href="#">Умови корстивання</a></p>
+                <p><a href="#">Питання та відповіді</a></p>
+            </div>
+
+            <div class="col-2">
+                <p class="caption">Кабінет</p>
+                <p><a href="#">Налаштування</a></p>
+                <p><a href="#">Мої замовлення</a></p>
+                <p><a href="#">Кешбек</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %}
+</body>

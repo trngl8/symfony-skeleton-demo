@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Profile;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\LocaleType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
@@ -22,6 +23,13 @@ class ProfileType extends AbstractType
             ->add('name')
             ->add('locale', LocaleType::class)
             ->add('timezone', TimezoneType::class)
+            ->add('theme', ChoiceType::class, [
+                'choices' => [
+                    'Default' => 'default',
+                    'Simple' => 'simple',
+                    'Blog' => 'blog',
+                ]
+            ])
             ->add('active', CheckboxType::class)
         ;
     }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app.request.locale }}"  class="h-100">
+<html lang="{{ app.request.locale }}" class="h-100">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
@@ -8,23 +8,68 @@
     <link rel="alternate icon" type="image/png" sizes="16x16" href="{{ asset('favicons/favicon16x16.png') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicons/apple-touch-icon.png') }}" />
 
-{% block stylesheets %}
-    {{ encore_entry_link_tags('app') }}
-{% endblock stylesheets %}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock stylesheets %}
 
-{% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-{% endblock javascripts %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock javascripts %}
 
 </head>
 
-{% block body_outside %}
-<body class="d-flex h-100 text-center text-white bg-dark">
-    {% block body %}
-    {% endblock %}
-</body>
+{% block body %}
+    <body class="d-flex h-100 text-white bg-dark">
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+            <header class="mb-auto">
+                <div class="text-end">
+                    {% if has_login is defined and has_login == true %}
+                    <h3 class=""><a href="{{ path('login') }}" class="btn btn-sm btn-outline-secondary" title="{{ 'login'|trans }}"><i class="bi bi-person"></i></a></h3>
+                    {% endif %}
+                </div>
+            </header>
+
+
+            {% block main %}
+            <main class="text-center px-3" data-controller="hello">
+                <div class="logo"><i class="bi bi-triangle-half"></i></div>
+                <h1 class="mb-5">{{ app_name }} <small>{{ app_version }}</small></h1>
+                {% if blocks is defined %}
+                    {% for block in blocks %}
+                        <p class="lead" data-hello-target="output">{{ block.title }}</p>
+                    {% endfor %}
+                {% else %}
+                    <p class="lead" data-hello-target="output">{{ app.request.cookies.get('APP_THEME') }}</p>
+                {% endif %}
+
+                <p class="lead mt-5">
+                    <a href="#" class="btn btn-lg btn-outline-primary fw-bold px-lg-5" title="button.blue.title" data-hello-target="name" data-action="click->hello#greet">{{ 'button.enter'|trans }}</a>
+                    <a href="#" class="btn btn-lg btn-outline-danger fw-bold px-lg-5" title="button.red.title">{{ 'button.cancel'|trans }}</a>
+{#                    {% if buttons is defined %}#}
+{#                    {% for button in buttons %}#}
+{#                        {% if button.type is same as 'first' %}#}
+{#                            <a href="{{ path(button.route) }}" class="btn btn-lg btn-outline-primary fw-bold px-lg-5" title="button.blue.title" data-hello-target="name" data-action="click->hello#greet">{{ button.caption }}</a>#}
+{#                        {% endif %}#}
+{#                        {% if button.type is same as 'second' %}#}
+{#                            <a href="{{ path(button.route) }}" class="btn btn-lg btn-outline-danger fw-bold px-lg-5" title="button.red.title">{{ button.caption }}</a>#}
+{#                        {% endif %}#}
+{#                    {% endfor %}#}
+{#                    {% endif %}#}
+                </p>
+
+            </main>
+            {% endblock %}
+
+            <footer class="text-center mt-auto text-white-50">
+                <p>Owners by <a href="https://" class="text-white">{{ app_name }}</a> {{ app_version }} ({{ app.environment|upper }}).</p>
+            </footer>
+        </div>
+    </body>
 {% endblock %}
 
+{% if app.environment|lower == 'dev' %}
 <!-- Page rendered on {{ 'now'|format_datetime('long', 'long', '', 'UTC') }} -->
+{% endif %}
 
 </html>

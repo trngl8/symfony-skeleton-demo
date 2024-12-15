@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block main %}
-    <p>{{ 'message.removing_agree'|trans }} #{{ item.id }}?</p>
+    <p>{{ 'messages.removing_agree'|trans }} #{{ item.id }}?</p>
     <form action="{{ url('admin_project_remove', { id: item.id }) }}" method="post" data-confirmation="true" id="delete-form">
         <input type="hidden" name="token" value="{{ csrf_token('remove') }}" />
         <button type="submit" class="btn btn-outline-danger">

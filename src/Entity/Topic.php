@@ -19,14 +19,13 @@ class Topic
     #[Groups(['show_topics_api'])]
     private $id;
 
-    use TimestampTrait;
-
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['show_topics_api'])]
     #[Assert\NotBlank]
     private $title;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\Length(max: 255)]
     private $description;
 
     #[ORM\Column(type: 'string', length: 32)]
@@ -51,6 +50,23 @@ class Topic
     #[ORM\ManyToOne]
     private ?Product $product = null;
 
+    use TimestampTrait;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $publishedAt;
+
+    public function getPublishedAt(): ?\DateTime
+    {
+        return $this->publishedAt;
+    }
+
+    public function setPublishedAt(?\DateTime $publishedAt): self
+    {
+        $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
@@ -67,8 +83,6 @@ class Topic
     {
         return $this->id;
     }
-
-    use TimestampTrait;
 
     public function getTitle(): ?string
     {

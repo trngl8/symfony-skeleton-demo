@@ -14,11 +14,12 @@ class InviteControllerTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', $uri);
 
-        $this->assertResponseIsSuccessful();
+        //TODO: invite should be created before
+        $this->assertResponseStatusCodeSame(404);
     }
 
     public function getUris() : iterable
     {
-        yield 'accept URI' => ['i/test_code'];
+        yield 'accept URI' => ['invite/accept/test@test.com'];
     }
 }

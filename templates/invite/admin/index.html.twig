@@ -1,6 +1,6 @@
 {% extends 'admin.html.twig' %}
 
-{% block title %}{{ 'text.must_be_replaced'|trans }}{% endblock %}
+{% block title %}{{ 'title.invites'|trans }}{% endblock %}
 
 {% block page_title %}
     <h1 class="mt-4">{{ 'title.invites'|trans }}</h1>
@@ -14,12 +14,35 @@
 {% endblock %}
 
 {% block paginator %}
+    <div class="d-flex">
+        <div>{{ 'total'|trans }} {{ count }} {{ 'items'|trans }}</div>
+        {% if pages|length > 0 %}
+        <ul class="pagination m-0 ms-auto">
+            <li class="page-item">
+                <a class="page-link" href="{{ path('admin_invite_index', {page: pages|first}) }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% for current in pages %}
+                <li class="page-item {% if page == current %}active{% endif%}" {% if page == current %}aria-current="page"{% endif%}>
+                    <a class="page-link" href="{{ path('admin_invite_index', {page: current}) }}">{{ current }}</a>
+                </li>
+            {% endfor %}
+            <li class="page-item">
+                <a class="page-link" href="{{ path('admin_invite_index', {page: pages|last}) }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block action_panel %}
     <div class="mb-4">
         {% if button is defined %}
-            <a href="{{ path('admin_invite_add') }}" class="btn btn-lg btn-outline-primary"><i class="bi bi-plus-circle"></i> {{ 'button.add'|trans }}</a>
+            <a href="{{ path('admin_invite_add') }}" class="btn btn-outline-primary" title="{{ 'button.add'|trans }} invite"><i class="bi bi-plus-circle"></i> {{ 'button.add'|trans }}</a>
+            <a href="{{ path('admin_invite_export') }}" class="btn btn-outline-secondary" title="{{ 'button.export'|trans }} invite"><i class="bi bi-download"></i> {{ 'button.export'|trans }}</a>
         {% endif %}
     </div>
 {% endblock %}
@@ -29,51 +52,19 @@
 
 {% block main %}
 
-    {% if items is defined and items|length > 0 %}
-        <table class="table">
-            <thead class="table-light">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">{{ 'title'| trans }}</th>
-                <th scope="col">{{ 'type'| trans }}</th>
-                <th scope="col">{{ 'createdAt'| trans }}</th>
-                <th scope="col">{{ 'closeAt'| trans }}</th>
-                <th scope="col" class="col-2">{{ 'actions'| trans }}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for item in items %}
-                <tr>
-                    <th scope="row"><a href="{{ path('admin_invite_show', { id: item.id }) }}">{{ item.id }}</a></th>
-                    <td><a href="{{ path('admin_invite_show', { id: item.id }) }}">{{ item.title }}</a></td>
-                    <td>{{ item.type }}</td>
-                    <td>{{ item.createdAt|date }}</td>
-                    <td>
-                        {% if item.closedAt %}
-                            {{ item.closedAt|date }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        <a href="{{ path('admin_invite_show', { id: item.id }) }}" class="btn btn-sm btn-outline-secondary">{{ 'button.show'|trans }}</a>
-                        <a href="{{ path('admin_invite_edit', { id: item.id }) }}" class="btn btn-sm btn-outline-primary">{{ 'button.edit'|trans }}</a>
-                        <a href="{{ path('admin_invite_remove', { id: item.id }) }}" class="btn btn-sm btn-outline-danger">{{ 'button.remove'|trans }}</a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
-
     {% if paginator is defined %}
+        {% if paginator|length > 0 %}
         <table class="table">
             <thead class="table-light">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">{{ 'title'| trans }}</th>
-                <th scope="col">{{ 'type'| trans }}</th>
-                <th scope="col">{{ 'createdAt'| trans }}</th>
-                <th scope="col">{{ 'closedAt'| trans }}</th>
-                <th scope="col" class="col-2"></th>
+                <th scope="col">{{ 'name'|trans }}</th>
+                <th scope="col">{{ 'description'|trans }}</th>
+                <th scope="col">{{ 'email'|trans }}</th>
+                <th scope="col">{{ 'phone'|trans }}</th>
+                <th scope="col">{{ 'createdAt'|trans }}</th>
+                <th scope="col">{{ 'closedAt'|trans }}</th>
+                <th scope="col">{{ 'actions'| trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -88,19 +79,22 @@
                         {% endif%}
                     </td>
                     <td>{{ item.description }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.phone }}</td>
                     <td>{{ item.createdAt|date }}</td>
                     <td>
                         {% if item.closedAt %}
                             {{ item.closedAt|date }}
                         {% endif %}
                     </td>
-                    <td class="text-end">
+                    <td>
                         <a href="{{ path('admin_invite_show', { id: item.id }) }}" class="btn btn-sm btn-outline-secondary">{{ 'button.show'|trans }}</a>
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+        {% endif %}
     {% endif %}
 
 {% endblock %}

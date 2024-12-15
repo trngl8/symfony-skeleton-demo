@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Block;
 use App\Repository\OfferRepository;
 use App\Repository\ProductRepository;
 use App\Service\OfferService;
@@ -12,10 +13,15 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: "/product", name: "app_product_")]
 class ProductController extends AbstractController
 {
-    #[Route('', name: 'index')]
-    public function index(ProductRepository $products): Response
+    public function __construct(
+        private readonly ProductRepository $productRepository
+    )
     {
-        $products = $products->findAll();
+    }
+    #[Route('', name: 'index')]
+    public function index(): Response
+    {
+        $products = $this->productRepository->findAll();
 
         return $this->render('product/index.html.twig', [
             'products' => $products,

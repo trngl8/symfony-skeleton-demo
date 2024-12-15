@@ -1,0 +1,24 @@
+{% extends 'project/admin/index.html.twig' %}
+
+{% block title %}{{ item.title }}{% endblock %}
+
+{% block page_title %}
+    <h1 class="mt-4">{{ item.title }}</h1>
+{%endblock%}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <p>{{ item.title }}</p>
+                    <p>{{ item.description }}</p>
+                </div>
+            </div>
+            <div class="mt-4">
+                <a href="{{ path('admin_project_edit', {id: item.id}) }}" class="btn btn-outline-secondary">{{ 'button.edit'|trans }}</a>
+                <a href="{{ path('admin_project_remove', {id: item.id}) }}" class="btn btn-outline-danger">{{ 'button.remove'|trans }}</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

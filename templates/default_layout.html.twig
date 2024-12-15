@@ -1,0 +1,225 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ app_name }} {{ app.request.pathinfo }} {% endblock %}
+
+{% block modal %}{% endblock %}
+
+{% block simple_navbar %}
+<header class="p-3 border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="{{ path('app_index') }}" class="d-flex align-items-center mb-2 me-4 mb-lg-0 text-decoration-none">
+                <img src="{{ asset('favicons/favicon.svg') }}" width="32" height="32" alt="{{ app_name }}">
+            </a>
+
+            {{ render(controller(
+                'App\\Controller\\MenuController::mainMenu', {max: 8}
+            )) }}
+
+{#            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">#}
+{#                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">#}
+{#            </form>#}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED')  %}
+                {% if app.request.pathinfo == '/cart/open' %}
+                <div class="text-white">
+                    <a class="btn btn-outline-secondary me-5 position-relative" href="{{ path('app_cart') }}" title="{% if cart_items_count is defined %}More than {{ cart_items_count }} item{% else %}No items in the cart{% endif %}">
+                        <i class="bi bi-cart"></i>
+                        {% if cart_items_count is defined %}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+                            {{ cart_items_count }}+
+                            <span class="visually-hidden">More than {{ cart_items_count }} item</span>
+                        </span>
+                        {% endif %}
+                    </a>
+                </div>
+                {% endif %}
+
+                <div class="text-white">
+                    <div class="dropdown">
+                        <a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person"></i>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{{ path('app_profile') }}">{{ 'app.profile'|trans }}</a></li>
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <li><a class="dropdown-item" href="{{ path('app_inbox') }}">{{ 'app.inbox'|trans }} {% if incoming_unread_count is defined %}<span class="badge text-bg-secondary">{{ incoming_unread_count }}</span>{% endif %}</a></li>
+                            {% endif %}
+                            <li><a class="dropdown-item" href="{{ path('app_profile_invites') }}">{{ 'app.invites'|trans }}</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_order_index') }}">{{ 'app.orders'|trans }} {% if cart_items_count is defined %}<span class="badge text-bg-secondary">{{ cart_items_count }}{% endif %} </span></a></li>
+                            <li><a class="dropdown-item" href="{{ path('logout') }}">{{ 'app.logout'|trans }}</a></li>
+                        </ul>
+                    </div>
+                    {# <a class="btn btn-outline-primary" href="">Login</a>#}
+                    {# <a class="btn btn-light" href="">Logout</a>#}
+                </div>
+            {% else %}
+                <div class="text-end">
+                    {% if app.request.pathinfo == '/cart/open' %}
+                    <a class="btn btn-outline-secondary me-5 position-relative" href="{{ path('app_cart') }}" title="{% if cart_items_count is defined %}More than {{ cart_items_count }} item{% else %}No items in the cart{% endif %}">
+                        <i class="bi bi-cart"></i>
+                        {% if cart_items_count is defined %}
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+                            {{ cart_items_count }}+
+                            <span class="visually-hidden">More than {{ cart_items_count }} item</span>
+                        </span>
+                        {% endif %}
+                    </a>
+                    {% endif %}
+                    <a class="btn btn-outline-primary me-2 position-relative" href="{{ path('login') }}" title="Log in when you have an account">
+                        {{ 'button.login'|trans }}
+                        {% if app.session.get('alerts') %}
+                        <span class="position-absolute top-0 start-100 translate-middle p-2 bg-warning border border-light rounded-circle">
+                            <span class="visually-hidden">New alerts</span>
+                        </span>
+                        {% endif %}
+                    </a>
+                    <a class="btn btn-primary me-2" href="{{ path('subscribe_add') }}" title="Register when you have no account">Sign-up</a>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block navbar %}
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <div class="container"> {# container-fluid #}
+                <a class="navbar-brand" href="#"><i class="bi bi-triangle"></i></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{ path('app_index') }}">{{ 'menu.index'|trans }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_project_index') }}">{{ 'menu.projects'|trans }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_offer_index') }}">{{ 'menu.offer'|trans }}</a>
+                        </li>
+                        {#                    <li class="nav-item">#}
+                        {#                        <a class="nav-link disabled">{{ 'menu.admin'|trans }}</a>#}
+                        {#                    </li>#}
+                    </ul>
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        <div class="dropdown">
+                            <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ app.user.name }}
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <li><a class="dropdown-item" href="{{ path('app_profile')}}">{{ 'profile'|trans }}</a></li>
+                                {#                            <li><a class="dropdown-item" href="#">{{ 'settings'|trans }}</a></li>#}
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{path('logout')}}">{{ 'logout'|trans }}</a></li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <a class="btn btn-outline-secondary ms-lg-2" href="{{ path('login') }}"><i class="bi bi-person"></i> {{ 'login'|trans }}</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+{% endblock %}
+
+{% block body %}
+
+{#    <div class="container">#}
+{#        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">#}
+{#            <a href="{{ path('app_index') }}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">#}
+{#                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" fill="currentColor" class="bi bi-apple me-3" viewBox="0 0 16 16">#}
+{#                    <title>{{ app_name }}</title>#}
+{#                    <path d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516.024.034 1.52.087 2.475-1.258.955-1.345.762-2.391.728-2.43zm3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422.212-2.189 1.675-2.789 1.698-2.854.023-.065-.597-.79-1.254-1.157a3.692 3.692 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56.244.729.625 1.924 1.273 2.796.576.984 1.34 1.667 1.659 1.899.319.232 1.219.386 1.843.067.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758.347-.79.505-1.217.473-1.282z"/>#}
+{#                    <path d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516.024.034 1.52.087 2.475-1.258.955-1.345.762-2.391.728-2.43zm3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422.212-2.189 1.675-2.789 1.698-2.854.023-.065-.597-.79-1.254-1.157a3.692 3.692 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56.244.729.625 1.924 1.273 2.796.576.984 1.34 1.667 1.659 1.899.319.232 1.219.386 1.843.067.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758.347-.79.505-1.217.473-1.282z"/>#}
+{#                </svg>#}
+{#                <span class="fs-4">{{ app_name }}</span>#}
+{#            </a>#}
+
+{#            <ul class="nav">#}
+{#                <li class="nav-item"><a href="{{ path('app_index') }}" class="nav-link {% if app.request.get('_route') == 'app_index' %}active{% endif %}" aria-current="page">{{ 'menu.index'|trans }}</a></li>#}
+{#                <li class="nav-item"><a href="{{ path('app_subscribe') }}" class="nav-link {% if app.request.get('_route') == 'app_subscribe' %}active{% endif %}">{{ 'menu.products'|trans }}</a></li>#}
+{#            </ul>#}
+{#        </header>#}
+{#    </div>#}
+
+{% block hero %}{% endblock hero %}
+
+    <div class="mt-4">
+        <main class="container">
+
+            {% block breadcrumbs %}
+            {% endblock %}
+
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success" role="alert">
+                    {{ message|trans }}
+                </div>
+            {% endfor %}
+
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message|trans }}
+                </div>
+            {% endfor %}
+
+            {% for message in app.flashes('warning') %}
+                <div class="alert alert-warning" role="alert">
+                    {{ message|trans }}
+                </div>
+            {% endfor %}
+
+            {% block add_flashes %}
+            {% endblock %}
+
+            {% block main %}
+            {% endblock %}
+        </main>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <div class="container">
+        <footer class="row row-cols-5 py-5 my-5 border-top">
+            <div class="col">
+                <p class="text-muted">&copy; {{ app_name }} {{ app_version }}</p>
+            </div>
+
+            <div class="col">
+
+            </div>
+
+            <div class="col">
+                <h5>Home</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="{{ path('app_product_index') }}" class="nav-link p-0 text-muted">Products</a></li>
+                    <li class="nav-item mb-2"><a href="{{ path('app_project_index') }}" class="nav-link p-0 text-muted">Projects</a></li>
+                    <li class="nav-item mb-2"><a href="{{ path('app_offer_index') }}" class="nav-link p-0 text-muted">Offer</a></li>
+                    <li class="nav-item mb-2"><a href="{{ path('app_features') }}" class="nav-link p-0 text-muted">Features</a></li>
+                    <li class="nav-item mb-2"><a href="{{ path('app_info') }}" class="nav-link p-0 text-muted">Info</a></li>
+                    <li class="nav-item mb-2"><a href="{{ path('app_contact') }}" class="nav-link p-0 text-muted">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="col">
+                <h5>Subscribe</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="{{ path('app_index') }}" class="nav-link p-0 text-muted">Subscribe Add</a></li>
+                    <li class="nav-item mb-2"><a href="{{ path('default') }}" class="nav-link p-0 text-muted">Offer List</a></li>
+                </ul>
+            </div>
+
+            <div class="col">
+                <h5>User</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="{{ path('app_register') }}" class="nav-link p-0 text-muted">Registration</a></li>
+                    <li class="nav-item mb-2"><a href="{{ path('login') }}" class="nav-link p-0 text-muted">Login</a></li>
+                    <li class="nav-item mb-2"><a href="{{ path('app_profile') }}" class="nav-link p-0 text-muted">Profile</a></li>
+                    <li class="nav-item mb-2"><a href="{{ path('admin') }}" class="nav-link p-0 text-muted">Admin</a></li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+{% endblock %}

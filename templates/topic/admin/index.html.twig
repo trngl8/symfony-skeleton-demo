@@ -1,6 +1,6 @@
 {% extends 'admin.html.twig' %}
 
-{% block title %}{{ 'text.must_be_replaced'|trans }}{% endblock %}
+{% block title %}{{ 'title.topics'|trans }}{% endblock %}
 
 {% block page_title %}
     <h1 class="mt-4">{{ 'title.topics'|trans }}</h1>
@@ -16,18 +16,20 @@
 {% block action_panel %}
     <div class="mb-4">
         {% if button is defined %}
-            <a href="{{ path('admin_topic_add') }}" class="btn btn-lg btn-outline-primary"><i class="bi bi-plus-circle"></i> {{ 'button.add'|trans }}</a>
-            <a href="{{ path('admin_topic_export') }}" class="btn btn-lg btn-outline-primary"><i class="bi bi-download"></i> {{ 'button.export'|trans }}</a>
+            <a href="{{ path('admin_topic_add') }}" class="btn  btn-outline-primary"><i class="bi bi-plus-circle"></i> {{ 'button.add'|trans }}</a>
+            <a href="{{ path('admin_topic_export') }}" class="btn btn-outline-secondary"><i class="bi bi-download"></i> {{ 'button.export'|trans }}</a>
+{#            <a href="{{ path('admin_topic_import') }}" class="btn btn-outline-secondary"><i class="bi bi-download"></i> {{ 'button.import'|trans }}</a>#}
         {% endif %}
     </div>
 {% endblock %}
 
 {% block filters %}
+    {% if filters_expanded is defined %}
     <div class="accordion mb-4" id="accordionExample">
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="{{ filters_expanded }}" aria-controls="collapseOne">
-                    <i class="bi bi-filter"></i> {{ 'caption.filters' }}
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="{{ filters_expanded }}" aria-controls="collapseOne">
+                    <i class="bi bi-filter"></i> {{ 'title.filters'|trans }}
                 </button>
             </h2>
             <div id="collapseOne" class="accordion-collapse {% if filters_expanded %}show{% else %}collapse{% endif %}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -44,64 +46,12 @@
             </div>
         </div>
     </div>
+    {% endif %}
 {% endblock %}
 
 {% block main %}
-
-    {% if items is defined and items|length > 0 %}
-        <table class="table">
-            <thead class="table-light">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">{{ 'title'| trans }}</th>
-                <th scope="col">{{ 'type'| trans }}</th>
-                <th scope="col">{{ 'priority'| trans }} <i class="bi bi-sort-up"></i></th>
-                <th scope="col">{{ 'branch'| trans }}</th>
-                <th scope="col">{{ 'createdAt'| trans }}</th>
-                <th scope="col">{{ 'profile'| trans }}</th>
-                <th scope="col">{{ 'progress'| trans }}</th>
-                <th scope="col" class="col-2">{{ 'actions'| trans }}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for item in items %}
-                <tr>
-                    <th scope="row"><a href="{{ path('admin_topic_show', { id: item.id }) }}">{{ item.id }}</a></th>
-                    <td><a href="{{ path('admin_topic_show', { id: item.id }) }}">{{ item.title }}</a></td>
-                    <td>{{ item.type }}</td>
-                    <td>{{ item.priority }}</td>
-                    <td><span class="badge rounded-pill bg-success">{{ item.branch }}</span></td>
-                    <td>{{ item.createdAt|date }}</td>
-                    <td>
-                        {% if item.startedAt %}
-                            {{ item.startedAt|date }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if item.closedAt %}
-                            {{ item.closedAt|date }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {{ item.profile }}
-                    </td>
-                    <td>
-                        <a href="{{ path('admin_topic_show', { id: item.id }) }}" class="btn btn-sm btn-outline-secondary">
-                            {{ 'button.show'|trans }}
-                            <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-                                <span class="visually-hidden">New alerts</span>
-                            </span>
-                        </a>
-                        <a href="{{ path('admin_topic_edit', { id: item.id }) }}" class="btn btn-sm btn-outline-primary">{{ 'button.edit'|trans }}</a>
-                        <a href="{{ path('admin_topic_remove', { id: item.id }) }}" class="btn btn-sm btn-outline-danger">{{ 'button.remove'|trans }}</a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
-
     {% if paginator is defined %}
+        {% if paginator|length > 0 %}
         <table class="table">
             <thead class="table-light">
             <tr>
@@ -125,7 +75,7 @@
                 {% endif %}
                 <th scope="col">{{ 'profile'| trans }}</th>
                 <th scope="col">{{ 'progress'| trans }}</th>
-                <th scope="col" class="col-2"></th>
+                <th scope="col">{{ 'actions'|trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -178,21 +128,20 @@
                             {% endif %}
                         {% endif %}
                     </td>
-                    <td class="text-end">
-
+                    <td>
                         <a href="{{ path('admin_topic_show', { id: item.id }) }}" class="btn btn-sm btn-outline-secondary">{{ 'button.show'|trans }}</a>
-                        <a href="{{ path('admin_topic_edit', { id: item.id }) }}" class="btn btn-sm btn-outline-primary">{{ 'button.edit'|trans }}</a>
-                        <a href="{{ path('admin_topic_remove', { id: item.id }) }}" class="btn btn-sm btn-outline-danger">{{ 'button.remove'|trans }}</a>
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+        {% endif %}
     {% endif %}
 
 {% endblock %}
 
 {% block paginator %}
+    {% if paginator is defined %}
     <div class="d-flex">
         <div>{{ 'total'|trans }} {{ count }} {{ 'items'|trans }}</div>
         <ul class="pagination m-0 ms-auto">
@@ -213,4 +162,5 @@
             </li>
         </ul>
     </div>
+    {% endif %}
 {% endblock %}

@@ -5,17 +5,18 @@
 {% block main %}
     <div class="container">
         {% block error_body %}
-        <div class="mt-5 mb-4">
-            <i class="bi bi-exclamation-square display-4"></i>
-        </div>
 
-        <h1 class="mt-2 mb-4">{{ status_code }} {{ status_text  }}</h1>
+            <div class="mt-5 mb-4">
+                <i class="bi bi-exclamation-square display-4"></i>
+            </div>
 
-        <p class="lead mb-4">Something is broken. Try to refresh your browser or <a href="#" title="Contact link should be present">contact administrator</a>.</p>
+            <h1 class="mt-2 mb-4">{{ status_code }} {{ status_text  }}</h1>
 
-        {% if is_granted('ROLE_ADMIN') %}
-            <p><b>TODO:</b> Use choice and button or <a href="{{ path('app_home') }}">return to the homepage</a> if need.</p>
-        {% endif %}
+            <p class="lead mb-4">
+                Something is broken. Try to refresh your browser
+                or <a href="mailto://TODO add mailto address" title="Contact link should be present">
+                    contact administrator</a>.
+            </p>
 
         {% endblock %}
     </div>

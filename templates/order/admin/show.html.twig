@@ -1,0 +1,36 @@
+{% extends 'order/admin/index.html.twig' %}
+
+{% block add_javascript %}
+
+{% endblock %}
+{% block title %}{{ 'title.show_'|trans }}{% endblock %}
+
+{% block page_title %}
+    <h1 class="mt-4">{{ 'title.show_'|trans }}</h1>
+{%endblock%}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ path('admin') }}">{{ 'menu.dashboard'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_order_index') }}">{{ 'menu.orders'|trans }}</a></li>
+        <li class="breadcrumb-item active">{{ item.id }}</li>
+    </ol>
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div>{{ item.description }}</div>
+                    <p>{{ item.amount }}</p>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a href="{{ path('admin_order_edit', {id: item.id}) }}" class="btn btn-outline-secondary">{{ 'button.edit'|trans }}</a>
+                <a href="{{ path('admin_order_remove', {id: item.id}) }}" class="btn btn-outline-danger">{{ 'button.remove'|trans }}</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

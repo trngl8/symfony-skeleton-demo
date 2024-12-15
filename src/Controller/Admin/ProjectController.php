@@ -32,7 +32,7 @@ class ProjectController extends AbstractController
     {
         $items = $this->repository->findBy([]);
 
-        $button = new LinkToRoute('project_add', 'button.add');
+        $button = new LinkToRoute('project_add', 'button.add', 'Add');
 
         if(sizeof($items) === 0) {
             $this->addFlash('warning', 'flash.warning.no_items');
@@ -67,8 +67,8 @@ class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'edit', methods: ['GET', 'POST', 'HEAD'] )]
-    public function show(Request $request, int $id) : Response
+    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST', 'HEAD'] )]
+    public function edit(Request $request, int $id) : Response
     {
         $project = $this->doctrine->getRepository(Project::class)->find($id);
 
@@ -88,9 +88,10 @@ class ProjectController extends AbstractController
 
             $this->addFlash('success', 'flash.success.project_updated');
 
-            $nextAction = $form->get('saveAndAdd')->isClicked()
-                ? 'admin_project_add'
-                : 'admin_project_index';
+            $nextAction = 'admin_project_index';
+//            $nextAction = $form->get('saveAndAdd')->isClicked()
+//                ? 'admin_project_add'
+//                : 'admin_project_index';
 
             return $this->redirectToRoute($nextAction);
         }
@@ -101,7 +102,21 @@ class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/remove/{id}', name: 'remove', methods: ['GET', 'POST', 'HEAD'] )]
+    #[Route('/{id}/show', name: 'show', methods: ['GET', 'HEAD'] )]
+    public function show(int $id) : Response
+    {
+        $project =$this->repository->find($id);
+
+        if(!$project) {
+            throw new NotFoundHttpException(sprintf("Project %d not found", $id));
+        }
+
+        return $this->render('project/admin/show.html.twig', [
+            'item' => $project,
+        ]);
+    }
+
+    #[Route('/{id}/remove', name: 'remove', methods: ['GET', 'POST', 'HEAD'] )]
     public function remove(Project $project, Request $request) : Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');

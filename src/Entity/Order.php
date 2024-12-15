@@ -40,18 +40,17 @@ class Order
     private string $deliveryEmail;
 
     #[ORM\Column(length: 255)]
-    private ?string $deliveryPhone = null;
+    private ?string $deliveryPhone;
 
-    public function __construct(Offer $offer, string $profile, string $description)
+    #[ORM\Column(length: 128, nullable: true)]
+    private ?string $deliveryName = null;
+
+    public function __construct(?Uuid $uuid = null)
     {
-        $this->uuid = Uuid::v4();
-        $this->offer = $offer;
+        $this->uuid = $uuid ?? Uuid::v4();
         $this->action = 'pay';
-        $this->amount = $offer->getAmount();
-        $this->currency = $offer->getCurrency();
-        $this->description = $description;
-        $this->deliveryEmail = $profile;
     }
+
 
     public function __toString(): string
     {
@@ -130,6 +129,20 @@ class Order
         return $this;
     }
 
+    public function setDeliveryEmail(string $deliveryEmail): self
+    {
+        $this->deliveryEmail = $deliveryEmail;
+
+        return $this;
+    }
+
+    public function setDeliveryPhone(string $deliveryPhone): self
+    {
+        $this->deliveryPhone = $deliveryPhone;
+
+        return $this;
+    }
+
     public function getStatus(): string
     {
         return $this->status;
@@ -148,5 +161,17 @@ class Order
     public function getUuid(): ?string
     {
         return $this->uuid;
+    }
+
+    public function getDeliveryName(): ?string
+    {
+        return $this->deliveryName;
+    }
+
+    public function setDeliveryName(?string $deliveryName): static
+    {
+        $this->deliveryName = $deliveryName;
+
+        return $this;
     }
 }

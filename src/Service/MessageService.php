@@ -32,6 +32,9 @@ class MessageService implements ServiceInterface
         return new Message($this->adminEmail);
     }
 
+    /**
+     * @deprecated
+     */
     public function compose(Message $message) : Email
     {
         //TODO: choose email renderer
@@ -50,6 +53,7 @@ class MessageService implements ServiceInterface
             ->context([
                 'expiration_date' => new \DateTime('+7 days'),
                 'message' => $message->text,
+                'subscribe_token' =>  ''
             ])
         ;
         return $email;

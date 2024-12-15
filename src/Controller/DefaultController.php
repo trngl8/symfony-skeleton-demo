@@ -3,62 +3,82 @@
 namespace App\Controller;
 
 use App\Button\LinkToRoute;
-use App\Repository\ProductRepository;
-use App\Repository\TopicRepository;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Exception\ThemeLayoutNotFoundException;
+use App\Repository\BlockRepository;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 
 class DefaultController
 {
-    private $topicRepository;
+    private BlockRepository $blockRepository;
 
-    private $productRepository;
+    private Environment $twig;
 
-    private $twig;
+    private LoggerInterface $logger;
 
-    private $appTheme;
-
-    public function __construct(ProductRepository $productRepository, TopicRepository $topicRepository, Environment $twig,
-        string $appTheme
-    ) {
-        $this->productRepository = $productRepository;
-        $this->topicRepository = $topicRepository;
+    public function __construct(Environment $twig, LoggerInterface $logger, BlockRepository $blockRepository)
+    {
         $this->twig = $twig;
-        $this->appTheme = $appTheme;
+        $this->logger = $logger;
+        $this->blockRepository = $blockRepository;
+    }
+
+    public function default(Request $request) : Response
+    {
+        if (!$request->cookies->has('APP_THEME')) {
+            return $this->index();
+        }
+
+        $templateName = sprintf('%s.html.twig', $request->cookies->get('APP_THEME'));
+        try {
+            $template = $this->twig->load($templateName);
+        } catch (LoaderError $e) {
+            $this->logger->error(sprintf("Custom theme not found: %s", $e->getMessage()));
+            throw new ThemeLayoutNotFoundException(sprintf("Template %s not found", $templateName));
+        }
+
+        $buttons = [
+            new LinkToRoute('login', 'first', 'Enter'),
+            new LinkToRoute('app_index', 'second', 'Reset'),
+        ];
+
+        $content = $template->render([
+            'buttons' => $buttons,
+            'has_login' => false,
+        ]);
+
+        return $this->createResponse($content);
     }
 
     public function index() : Response
     {
-        $button1 = new LinkToRoute('default_module', 'button.more', 'primary', 'bi bi-1-circle');
-        $button2 = new LinkToRoute('default_action', 'button.subscribe', 'outline-primary', 'bi bi-2-square');
-        $button3 = new LinkToRoute('default_action', 'button.light', 'light');
-
-        $products = $this->productRepository->findBy([], ['id' => 'ASC'], 3, 0);
-        $topics = $this->topicRepository->findBy([], ['id' => 'ASC'], 10, 0);
-        $featured = $this->topicRepository->findBy([], ['id' => 'DESC'], 3, 0);
-
-        $templateName = sprintf('%s/index.html.twig', $this->appTheme);
-
         try {
-            $template = $this->twig->load($templateName);
+            $template = $this->twig->load('default.html.twig');
         } catch (LoaderError $e) {
-            throw new NotFoundHttpException("Default template not found");
+            $this->logger->error($e->getMessage());
+            throw new ThemeLayoutNotFoundException("Template not found");
         }
 
+        $blocks = $this->blockRepository->findByRoute('/');
+
+        $buttons = [
+            new LinkToRoute('app_index', 'first', 'Enter')
+        ];
+
         $content = $template->render([
-            'buttons' => [$button1, $button2, $button3],
-            'products' => $products,
-            'topics' => $topics,
-            'featured' => $featured
+            'buttons' => $buttons,
+            'blocks' => $blocks,
+            'has_login' => false,
         ]);
 
-        $response ??= new Response();
-        $response->setContent($content);
+        return $this->createResponse($content);
+    }
 
-        return $response;
-
+    private function createResponse(string $content) : Response
+    {
+        return (new Response())->setContent($content);
     }
 }

@@ -5,19 +5,21 @@
 
     <div class="row">
         <div class="col-md-6">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><b>Name:</b> {{ app_name }}</li>
-                <li class="list-group-item"><b>Version:</b> {{ app_version }}</li>
-                <li class="list-group-item"><b>Environment:</b> {{ app.environment|upper }}</li>
-                <li class="list-group-item"><b>Debug:</b> {{ app.debug ? 'Yes' : 'No' }}</li>
-                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-                <div class="card">
-                    <div class="card-body">
-                        {{ form(form) }}
-                    </div>
+
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            <div class="card">
+                <div class="card-body">
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.locale) }}
+                    {{ form_row(form.agree) }}
                 </div>
-                {{ form_end(form) }}
-            </ul>
+            </div>
+            <div class="mt-4 mb-4">
+                <button type="submit" class="btn btn-lg btn-primary ">{{ 'button.submit'|trans }}</button>
+            </div>
+            {{ form_end(form) }}
+
         </div>
     </div>
 {% endblock %}

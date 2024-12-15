@@ -1,0 +1,49 @@
+{% extends 'card/admin/index.html.twig' %}
+
+
+{% block title %}{{ 'title.add_card'|trans }}{% endblock %}
+
+{% block page_title %}
+    <h1 class="mt-4">{{ 'title.add_card'|trans }}</h1>
+{%endblock%}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="{{ path('admin') }}">{{ 'menu.dashboard'|trans }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('admin_card_index') }}">{{ 'menu.cards'|trans }}</a></li>
+        <li class="breadcrumb-item active">{{ 'title.add_card'|trans }}</li>
+    </ol>
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-8">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+            {{ form_row(form.code) }}
+            {{ form_row(form.product) }}
+            {{ form_row(form.title) }}
+            {{ form_row(form.brand) }}
+            {{ form_row(form.price) }}
+            {{ form_row(form.priceSale) }}
+            {{ form_row(form.quantity) }}
+            {{ form_row(form.weight) }}
+            {{ form_row(form.countryCode) }}
+            {{ form_row(form.period) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.available) }}
+            {% block filename %}
+                {% if item is defined and item.filename  %}
+                    <img src="{{ asset('upload/cards/' ~ item.id ~ '/' ~ item.filename) }}" alt="" width="200" >
+                {% endif %}
+            {% endblock %}
+            {{ form_row(form.image) }}
+
+            <div class="mt-4 mb-4">
+                <button type="submit" class="btn btn-lg btn-primary ">{{ 'button.submit'|trans }}</button>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

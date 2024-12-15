@@ -41,8 +41,8 @@
                     <a href="#" class="btn btn-outline-warning">{{ 'button.close'|trans }}</a>
                 {% endif %}
 
-                <a href="#" class="btn btn-outline-secondary">{{ 'button.edit'|trans }}</a>
-                <a href="#" class="btn btn-outline-danger">{{ 'button.remove'|trans }}</a>
+                <a href="{{ path('admin_offer_edit', {'id': item.id }) }}" class="btn btn-sm btn-outline-primary">{{ 'button.edit'|trans }}</a>
+                <a href="{{ path('admin_offer_remove', {'id': item.id }) }}" class="btn btn-sm btn-outline-danger">{{ 'button.remove'|trans }}</a>
             </div>
         </div>
     </div>

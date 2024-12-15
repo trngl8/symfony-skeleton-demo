@@ -1,8 +1,7 @@
 {% extends 'invite/admin/index.html.twig' %}
 
-{% block add_javascript %}
+{% block add_javascript %}{% endblock %}
 
-{% endblock %}
 {% block title %}{{ 'title.edit_invite'|trans }}{% endblock %}
 
 {% block page_title %}
@@ -27,18 +26,56 @@
     <div class="row">
         <div class="col-md-8">
             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-            <div class="card">
-                <div class="card-body">
+            <div class="card border-secondary mb-3">
+                <div class="card-header border-secondary bg-secondary text-white">
+                    {% block form_box_caption %}Edit invite{% endblock %}
+                </div>
+                <div class="card-body p-4">
                     {{ form_row(form.name) }}
                     {{ form_row(form.description) }}
                     {{ form_row(form.email) }}
                     {{ form_row(form.phone) }}
                 </div>
             </div>
-            <div class="mt-4">
-                {{ form_widget(form.save, {label : 'button.submit'|trans, attr: {class : 'btn btn-lg btn-primary' }}) }}
+
+            <div class="mt-4 mb-4">
+                <button type="submit" class="btn btn-lg btn-primary ">{{ 'button.submit'|trans }}</button>
             </div>
             {{ form_end(form) }}
+        </div>
+        <div class="col-md-4">
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Invite description
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <strong>Invite entity.</strong>  This form forms an invitation to the systems and sends an email to the invitee. The invitee can then register and create a user account.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Possible states
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <p><strong>States.</strong></p>
+                            <p>
+                                <span class="badge text-bg-success">Accepted</span>
+                                <span class="badge text-bg-warning">Expired</span>
+                                <span class="badge text-bg-danger">Cancelled</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 {% endblock %}
