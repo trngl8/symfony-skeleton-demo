@@ -9,8 +9,16 @@
             <div class="col-md-8">
 
                 <h1 class="mb-4">User verify</h1>
-                {% for flash_error in app.flashes('reset_password_error') %}
+                {% for flash_error in app.flashes('error') %}
                     <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                {% endfor %}
+
+                {% for flash_error in app.flashes('warning') %}
+                    <div class="alert alert-warning" role="alert">{{ flash_error }}</div>
+                {% endfor %}
+
+                {% for flash_error in app.flashes('success') %}
+                    <div class="alert alert-success" role="alert">{{ flash_error }}</div>
                 {% endfor %}
 
                 {{ form_start(verifyForm) }}
