@@ -42,6 +42,8 @@ messages:
   blank: "This page is blank"
   forgot_password: "Забули пароль?"
   authenticated_as: "Ви увійшли як"
+  check_email: "Перевірте вашу електронну пошту"
+  account_verified: "Ваш обліковий запис підтверджено"
 
 error:
   text_return_homepage: "Return to homepage"

@@ -39,6 +39,8 @@ messages:
   blank: "This page is blank"
   forgot_password: "Forgot your password?"
   authenticated_as: "You are logged in as"
+  check_email: "Check your email"
+  account_verified: "Your account has been verified"
 
 error:
   text_return_homepage: "Return to homepage"
