@@ -40,3 +40,7 @@ services:
 
     App\Controller\DefaultController:
         tags: ['controller.service_arguments']
+
+    App\Service\FileUploader:
+        arguments:
+            $uploadDirectory: '%env(resolve:UPLOAD_DIR)%'
